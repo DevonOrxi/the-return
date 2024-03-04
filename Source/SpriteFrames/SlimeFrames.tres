@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://b33fqbm3sgv8c"]
+
+[ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="1_vs2om"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrvrg"]
+atlas = ExtResource("1_vs2om")
+region = Rect2(0, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asitv"]
+atlas = ExtResource("1_vs2om")
+region = Rect2(141, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nethw"]
+atlas = ExtResource("1_vs2om")
+region = Rect2(282, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brifo"]
+atlas = ExtResource("1_vs2om")
+region = Rect2(423, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1bnc"]
+atlas = ExtResource("1_vs2om")
+region = Rect2(564, 0, 141, 107)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrvrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asitv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nethw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brifo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1bnc")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]

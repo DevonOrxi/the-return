@@ -1,0 +1,318 @@
+[gd_scene load_steps=33 format=3 uid="uid://2qkkk18xs7ko"]
+
+[ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Assets/Backgrounds/1-night.png" id="1_ushku"]
+[ext_resource type="Script" path="res://Source/BattleManager.gd" id="2_72b8n"]
+[ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="2_ouvsv"]
+[ext_resource type="Script" path="res://Source/Battler.gd" id="3_klwiy"]
+[ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="3_lsyip"]
+[ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Assets/Fonts/m6x11plus.ttf" id="6_12ufs"]
+[ext_resource type="Script" path="res://Source/UIManager.gd" id="6_nrh7m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(0, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sykij"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(249, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lqri"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(498, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bam7x"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(747, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a7nb"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(996, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80b8f"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(1245, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by73s"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(0, 100, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alk16"]
+atlas = ExtResource("2_ouvsv")
+region = Rect2(249, 100, 249, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_njty5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2onxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sykij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lqri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bam7x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a7nb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80b8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by73s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alk16")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_jn6y1"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kmrlb"]
+_data = {
+"idle": SubResource("Animation_jn6y1")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrvrg"]
+atlas = ExtResource("3_lsyip")
+region = Rect2(0, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asitv"]
+atlas = ExtResource("3_lsyip")
+region = Rect2(141, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nethw"]
+atlas = ExtResource("3_lsyip")
+region = Rect2(282, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brifo"]
+atlas = ExtResource("3_lsyip")
+region = Rect2(423, 0, 141, 107)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1bnc"]
+atlas = ExtResource("3_lsyip")
+region = Rect2(564, 0, 141, 107)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p7pyl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrvrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asitv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nethw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brifo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1bnc")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cp0nv"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_itwbq"]
+offsets = PackedFloat32Array(0, 0.266234)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_203kq"]
+gradient = SubResource("Gradient_itwbq")
+fill_from = Vector2(2.08165e-12, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ika3"]
+font = ExtResource("6_12ufs")
+font_size = 36
+font_color = Color(1, 1, 1, 0.572549)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dugku"]
+font = ExtResource("6_12ufs")
+font_size = 72
+outline_size = 14
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.682353)
+
+[sub_resource type="Animation" id="Animation_nta3g"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-333, 204)]
+}
+
+[sub_resource type="Animation" id="Animation_h2k5q"]
+resource_name = "intro"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.4, 2),
+"transitions": PackedFloat32Array(1.5, 1, 0.75, 1),
+"update": 0,
+"values": [Vector2(-333, 204), Vector2(156, 204), Vector2(156, 204), Vector2(649, 204)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dq2om"]
+_data = {
+"RESET": SubResource("Animation_nta3g"),
+"intro": SubResource("Animation_h2k5q")
+}
+
+[node name="Battle" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(320, 240)
+texture = ExtResource("1_ushku")
+
+[node name="BattleBuilder" type="Node2D" parent="."]
+
+[node name="BattleManager" type="Node2D" parent="."]
+script = ExtResource("2_72b8n")
+
+[node name="PlayerBattlers" type="Node2D" parent="BattleManager"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="Battler" type="Node2D" parent="BattleManager/PlayerBattlers"]
+position = Vector2(491, 256)
+script = ExtResource("3_klwiy")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleManager/PlayerBattlers/Battler"]
+texture_filter = 1
+position = Vector2(-21, -41)
+sprite_frames = SubResource("SpriteFrames_njty5")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleManager/PlayerBattlers/Battler"]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_kmrlb")
+}
+autoplay = "idle"
+
+[node name="EnemyBattlers" type="Node2D" parent="BattleManager"]
+
+[node name="Enemy" type="Node2D" parent="BattleManager/EnemyBattlers"]
+texture_filter = 1
+position = Vector2(132, 241)
+script = ExtResource("3_klwiy")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleManager/EnemyBattlers/Enemy"]
+texture_filter = 1
+position = Vector2(21, -45)
+sprite_frames = SubResource("SpriteFrames_p7pyl")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleManager/EnemyBattlers/Enemy"]
+root_node = NodePath("../AnimatedSprite2D")
+
+[node name="UI" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("6_nrh7m")
+
+[node name="Gradient" type="TextureRect" parent="UI"]
+material = SubResource("CanvasItemMaterial_cp0nv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_203kq")
+
+[node name="DebugLabel" type="Label" parent="UI/Gradient"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -475.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
+text = "DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+DALE DALE
+"
+label_settings = SubResource("LabelSettings_0ika3")
+
+[node name="IntroLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -653.0
+offset_top = -36.0
+offset_right = -325.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "BATTLE START"
+label_settings = SubResource("LabelSettings_dugku")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="UIAnimationPlayer" type="AnimationPlayer" parent="UI"]
+libraries = {
+"": SubResource("AnimationLibrary_dq2om")
+}
+
+[connection signal="debug_signal" from="BattleManager" to="UI" method="_on_battle_manager_debug_signal" flags=3]
