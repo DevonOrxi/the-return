@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl262qtfwvrul"]
+
+[ext_resource type="Script" path="res://Source/NavigationController.gd" id="1_k54ln"]
+[ext_resource type="Script" path="res://Source/InputManager.gd" id="2_680xw"]
+
+[node name="Control" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 1, 1)
+
+[node name="NavigationController" type="Node" parent="."]
+script = ExtResource("1_k54ln")
+
+[node name="InputManager" type="Node" parent="."]
+script = ExtResource("2_680xw")
+
+[connection signal="inputSignal" from="InputManager" to="NavigationController" method="_on_input_manager_signal"]
