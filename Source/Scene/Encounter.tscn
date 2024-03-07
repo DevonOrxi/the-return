@@ -1,44 +1,45 @@
-[gd_scene load_steps=34 format=3 uid="uid://2qkkk18xs7ko"]
+[gd_scene load_steps=35 format=3 uid="uid://2qkkk18xs7ko"]
 
-[ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Assets/Backgrounds/1-night.png" id="1_ushku"]
-[ext_resource type="Script" path="res://Source/Encounter.gd" id="1_xwncd"]
-[ext_resource type="Script" path="res://Source/BattleManager.gd" id="2_72b8n"]
-[ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="2_ouvsv"]
-[ext_resource type="Script" path="res://Source/Battler.gd" id="3_klwiy"]
-[ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="3_lsyip"]
-[ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Assets/Fonts/m6x11plus.ttf" id="6_12ufs"]
-[ext_resource type="Script" path="res://Source/UIManager.gd" id="6_nrh7m"]
+[ext_resource type="Script" path="res://Source/Script/Encounter.gd" id="1_17dv8"]
+[ext_resource type="Script" path="res://Source/Script/BattleInputManager.gd" id="2_krhk7"]
+[ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Assets/Backgrounds/1-night.png" id="3_ahfx8"]
+[ext_resource type="Script" path="res://Source/Script/BattleManager.gd" id="4_4b3rh"]
+[ext_resource type="Script" path="res://Source/Script/Battler.gd" id="5_npck5"]
+[ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="6_8g0j1"]
+[ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="7_hh4o3"]
+[ext_resource type="Script" path="res://Source/Script/UIManager.gd" id="8_d3th6"]
+[ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Assets/Fonts/m6x11plus.ttf" id="9_p5plo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(0, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sykij"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(249, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4lqri"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(498, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bam7x"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(747, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4a7nb"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(996, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_80b8f"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(1245, 0, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_by73s"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(0, 100, 249, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_alk16"]
-atlas = ExtResource("2_ouvsv")
+atlas = ExtResource("6_8g0j1")
 region = Rect2(249, 100, 249, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_njty5"]
@@ -82,23 +83,23 @@ _data = {
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lrvrg"]
-atlas = ExtResource("3_lsyip")
+atlas = ExtResource("7_hh4o3")
 region = Rect2(0, 0, 141, 107)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_asitv"]
-atlas = ExtResource("3_lsyip")
+atlas = ExtResource("7_hh4o3")
 region = Rect2(141, 0, 141, 107)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nethw"]
-atlas = ExtResource("3_lsyip")
+atlas = ExtResource("7_hh4o3")
 region = Rect2(282, 0, 141, 107)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_brifo"]
-atlas = ExtResource("3_lsyip")
+atlas = ExtResource("7_hh4o3")
 region = Rect2(423, 0, 141, 107)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k1bnc"]
-atlas = ExtResource("3_lsyip")
+atlas = ExtResource("7_hh4o3")
 region = Rect2(564, 0, 141, 107)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_p7pyl"]
@@ -136,11 +137,11 @@ fill_from = Vector2(2.08165e-12, 1)
 fill_to = Vector2(0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ika3"]
-font = ExtResource("6_12ufs")
+font = ExtResource("9_p5plo")
 font_size = 36
 
 [sub_resource type="LabelSettings" id="LabelSettings_dugku"]
-font = ExtResource("6_12ufs")
+font = ExtResource("9_p5plo")
 font_size = 72
 outline_size = 14
 outline_color = Color(0, 0, 0, 1)
@@ -191,23 +192,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
-script = ExtResource("1_xwncd")
+script = ExtResource("1_17dv8")
+
+[node name="InputManager" type="Node" parent="."]
+script = ExtResource("2_krhk7")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(320, 240)
-texture = ExtResource("1_ushku")
-
-[node name="BattleBuilder" type="Node2D" parent="."]
+texture = ExtResource("3_ahfx8")
 
 [node name="BattleDirector" type="Node2D" parent="."]
-script = ExtResource("2_72b8n")
+script = ExtResource("4_4b3rh")
 
 [node name="PlayerBattlers" type="Node2D" parent="BattleDirector"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 
 [node name="Battler" type="Node2D" parent="BattleDirector/PlayerBattlers"]
 position = Vector2(491, 256)
-script = ExtResource("3_klwiy")
+script = ExtResource("5_npck5")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/PlayerBattlers/Battler"]
@@ -229,7 +231,7 @@ autoplay = "idle"
 [node name="Enemy" type="Node2D" parent="BattleDirector/EnemyBattlers"]
 texture_filter = 1
 position = Vector2(132, 241)
-script = ExtResource("3_klwiy")
+script = ExtResource("5_npck5")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/EnemyBattlers/Enemy"]
@@ -249,7 +251,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_nrh7m")
+script = ExtResource("8_d3th6")
 
 [node name="Gradient" type="TextureRect" parent="UIManager"]
 material = SubResource("CanvasItemMaterial_cp0nv")

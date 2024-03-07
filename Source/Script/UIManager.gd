@@ -10,11 +10,11 @@ signal start_animation_finished
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	pass
 
-func play_ui_animation(name: String):
-	_ui_animation_player.play(name)
+func play_ui_animation(action_name: String):
+	_ui_animation_player.play(action_name)
 	
 
 func _on_battle_manager_debug_signal(text: String):

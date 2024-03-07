@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bl262qtfwvrul"]
+[gd_scene load_steps=3 format=3 uid="uid://b8sniv0xpr5io"]
 
-[ext_resource type="Script" path="res://Source/NavigationController.gd" id="1_k54ln"]
-[ext_resource type="Script" path="res://Source/InputManager.gd" id="2_680xw"]
+[ext_resource type="Script" path="res://Source/Script/NavigationController.gd" id="1_k54ln"]
+[ext_resource type="Script" path="res://Source/Script/BattleInputManager.gd" id="2_680xw"]
 
 [node name="Control" type="ColorRect"]
 anchors_preset = 15

@@ -15,5 +15,4 @@ func _init():
 	_stats = Stats.new(randi_range(0, 9))
 
 func get_speed_stat() -> int:
-	print("speed: " + str(_stats.speed))
 	return _stats.speed
