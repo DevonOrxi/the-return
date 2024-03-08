@@ -13,14 +13,13 @@ func _ready():
 func _process(_delta):
 	pass
 
-func play_ui_animation(action_name: String):
-	_ui_animation_player.play(action_name)
-	
-
 func _on_battle_manager_debug_signal(text: String):
 	_debug_label.text = text
-
 
 func _on_ui_animation_player_animation_finished(anim_name):
 	if anim_name == "intro":
 		start_animation_finished.emit()
+
+func _on_battle_director_play_ui_animation(animation_name):
+	await ready
+	_ui_animation_player.play(animation_name)
