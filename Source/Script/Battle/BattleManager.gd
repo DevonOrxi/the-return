@@ -3,6 +3,7 @@ extends Node
 class_name BattleDirector
 
 @onready var _phase_manager = $BattlePhaseManager
+@onready var _battle_configuration = DefaultBattleConfiguration.new()
 
 var _current_actor: Battler
 var _turns: Array[Battler] = []
@@ -32,7 +33,7 @@ func _is_battler_speed_faster(a: Battler, b: Battler) -> bool:
 	return a.get_speed_stat() > b.get_speed_stat()
 
 func _on_ui_manager_start_animation_finished():
-	_phase_manager.start()
+	_phase_manager.start_with_config(_battle_configuration)
 
 func _on_battle_phase_manager_phase_changed(to_phase: BattlePhase):
 	if to_phase != null:

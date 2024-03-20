@@ -2,29 +2,24 @@ extends BattlePhase
 
 class_name MockPhase
 
-class MockCondition extends BattlePhaseChangeCondition:
-	
-	var evaluate_callable: Callable
-	
-	func evaluate() -> bool:
-		return evaluate_callable.call()
-
 var mockTimer = 0
+var next_phase: BattlePhase
 
 func _init():
-	super._init()
+	super()
 	
-	var condition = MockCondition.new()
-	condition.evaluate_callable = _is_timer_up
-	_change_conditions = [condition]
 	name = "Mock Phase"
 	_name = "Mock Phase"
 
-func _process(delta):
-	super._process(delta)
-	
+func start_with_params(params):
+	mockTimer = 0
+	super.start_with_params(params)
+
+func _evaluate_all_conditions(delta: float):
 	if not _is_timer_up():
 		mockTimer += delta
+	else:
+		change_condition_met.emit(next_phase)
 
 func _is_timer_up() -> bool:
 	return mockTimer >= 1

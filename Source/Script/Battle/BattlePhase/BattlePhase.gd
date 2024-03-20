@@ -3,29 +3,37 @@ extends Node2D
 class_name BattlePhase
 
 var _name: String
-var _change_conditions: Array[BattlePhaseChangeCondition]
+var is_active: bool
 signal change_condition_met(to_phase: BattlePhase)
 
-func start():
+func start_with_params(params):
 	visible = true
+	is_active = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
+func start():
+	start_with_params(null)
+
 func _init():
+	pass
+
+func _ready():
+	exit()
+
+func _process(delta):
+	_evaluate_all_conditions(delta)
+
+func _evaluate_all_conditions(delta: float):
+	pass
+
+func exit():
 	visible = false
+	is_active = false
 	process_mode = Node.PROCESS_MODE_DISABLED
 
-func _process(_delta):
-	_evaluate_all_conditions()
-
-func _evaluate_all_conditions():
-	for i in _change_conditions.size():
-		if _change_conditions[i].evaluate():
-			_condition_met(_change_conditions[i])
-			return
-
-func _condition_met(condition: BattlePhaseChangeCondition):
-	var next_phase = condition.get_next_phase()
-	change_condition_met.emit(next_phase)
+func set_phase_name(new_name: String):
+	_name = new_name
+	name = new_name
 
 func get_phase_name() -> String:
 	return _name

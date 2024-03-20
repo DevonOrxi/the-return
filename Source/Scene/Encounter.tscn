@@ -204,26 +204,6 @@ script = ExtResource("2_m5152")
 [node name="BattlePhaseManager" type="Node2D" parent="BattleDirector"]
 script = ExtResource("5_maqqs")
 
-[node name="Shhhhhhh" type="Node2D" parent="BattleDirector/BattlePhaseManager"]
-
-[node name="Intro" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
-[node name="Pre-Action" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
-[node name="Planning" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
-[node name="Execution" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
-[node name="Post-Planning" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
-[node name="Outro" type="Node2D" parent="BattleDirector/BattlePhaseManager/Shhhhhhh"]
-visible = false
-
 [node name="Battlers" type="Node2D" parent="BattleDirector"]
 
 [node name="Players" type="Node2D" parent="BattleDirector/Battlers"]
