@@ -33,6 +33,8 @@ func _is_battler_speed_faster(a: Battler, b: Battler) -> bool:
 	return a.get_speed_stat() > b.get_speed_stat()
 
 func _on_ui_manager_start_animation_finished():
+	_current_actor = _turns[0]
+	_battle_configuration.setup_with(_current_actor)
 	_phase_manager.start_with_config(_battle_configuration)
 
 func _on_battle_phase_manager_phase_changed(to_phase: BattlePhase):

@@ -2,7 +2,7 @@ extends BattleConfiguration
 
 class_name DefaultBattleConfiguration
 	
-func _init():
+func setup_with(actor: Battler):
 	var intro = MockPhase.new()
 	var planning = PlanningBattlePhase.new()
 	var execution = MockPhase.new()
@@ -10,6 +10,9 @@ func _init():
 	
 	intro.set_phase_name("Intro")
 	intro.next_phase = planning
+	
+	planning.set_actor(actor)
+	planning.next_phase = execution
 	
 	execution.set_phase_name("Execution")
 	execution.next_phase = planning

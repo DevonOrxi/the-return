@@ -25,6 +25,6 @@ func _change_phase(to_phase: BattlePhase):
 	
 	_current_phase = to_phase
 	_current_phase.change_condition_met.connect(_change_phase)
-	_current_phase.start()
+	_current_phase.start_with_params(null)
 	
 	phase_changed.emit(to_phase)

@@ -14,17 +14,8 @@ func start_with_params(params):
 func start():
 	start_with_params(null)
 
-func _init():
-	pass
-
 func _ready():
 	exit()
-
-func _process(delta):
-	_evaluate_all_conditions(delta)
-
-func _evaluate_all_conditions(delta: float):
-	pass
 
 func exit():
 	visible = false
