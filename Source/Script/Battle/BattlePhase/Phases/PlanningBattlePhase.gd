@@ -14,8 +14,8 @@ enum ActionType {
 }
 
 class Action:
-	var _stack: Array[ActionType]
-	var _stack_pointer = 0
+	#var _stack: Array[ActionType]
+	#var _stack_pointer = 0
 	var name: String
 	var args: Array
 
@@ -27,18 +27,29 @@ class ActionInput:
 
 var next_phase: BattlePhase
 
-var _navigationStack: Array[ActionType]
+#var _navigationStack: Array[ActionType]
 var _actor: Battler
 
 func _init():
 	name = "Planning"
 	_name = "Planning"
 
-func start():
-	super.start()
+func start_with_params(params):
+	super.start_with_params(params)
+	
+	var disable_panels = {}
+	disable_panels["action"] = "disable_all_action_panels"
+	
+	var change_panel = {}
+	change_panel["action"] = "enable_action_panel"
+	change_panel["enable_panel_target"] = "BaseAction"
+	change_panel["is_focus"] = true
+	
+	ui_change.emit(disable_panels)
+	ui_change.emit(change_panel)
 	
 
-func _process(delta):
+func _process(_delta):
 	# Placeholder
 	if Input.is_action_just_pressed("ui_accept"):
 		change_condition_met.emit(next_phase)

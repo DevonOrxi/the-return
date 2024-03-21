@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://2qkkk18xs7ko"]
+[gd_scene load_steps=36 format=3 uid="uid://2qkkk18xs7ko"]
 
 [ext_resource type="Script" path="res://Source/Script/Battle/Encounter.gd" id="1_cn4w5"]
 [ext_resource type="Script" path="res://Source/Script/Battle/BattleManager.gd" id="2_m5152"]
@@ -125,6 +125,12 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_bv3gw"]
+font = ExtResource("9_p5plo")
+font_size = 36
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cp0nv"]
 blend_mode = 3
 
@@ -185,13 +191,7 @@ _data = {
 "intro": SubResource("Animation_h2k5q")
 }
 
-[node name="Encounter" type="ColorRect"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
+[node name="Encounter" type="Node2D"]
 script = ExtResource("1_cn4w5")
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -245,8 +245,10 @@ autoplay = "idle"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Enemies/Enemy"]
 root_node = NodePath("../AnimatedSprite2D")
 
-[node name="UIManager" type="Control" parent="."]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UIManager" type="Control" parent="CanvasLayer"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -254,7 +256,61 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_d3th6")
 
-[node name="Gradient" type="TextureRect" parent="UIManager"]
+[node name="ActionPanels" type="Control" parent="CanvasLayer/UIManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BaseAction" type="Panel" parent="CanvasLayer/UIManager/ActionPanels"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -51.0
+offset_right = 97.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Container" type="VBoxContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer"]
+layout_mode = 2
+
+[node name="Attack" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Container"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "ATTACK"
+label_settings = SubResource("LabelSettings_bv3gw")
+
+[node name="Defend" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Container"]
+layout_mode = 2
+text = "DEFEND
+"
+label_settings = SubResource("LabelSettings_bv3gw")
+
+[node name="Gradient" type="TextureRect" parent="CanvasLayer/UIManager"]
 material = SubResource("CanvasItemMaterial_cp0nv")
 layout_mode = 1
 anchors_preset = 15
@@ -264,7 +320,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_203kq")
 
-[node name="DebugLabel" type="Label" parent="UIManager/Gradient"]
+[node name="DebugLabel" type="Label" parent="CanvasLayer/UIManager/Gradient"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 12
@@ -281,7 +337,7 @@ pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
 label_settings = SubResource("LabelSettings_0ika3")
 text_overrun_behavior = 1
 
-[node name="IntroLabel" type="Label" parent="UIManager"]
+[node name="IntroLabel" type="Label" parent="CanvasLayer/UIManager"]
 layout_mode = 2
 anchor_left = 0.5
 anchor_top = 0.5
@@ -300,13 +356,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="UIAnimationPlayer" type="AnimationPlayer" parent="UIManager"]
+[node name="UIAnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager"]
 libraries = {
 "": SubResource("AnimationLibrary_dq2om")
 }
 
-[connection signal="debug_signal" from="BattleDirector" to="UIManager" method="_on_battle_manager_debug_signal"]
-[connection signal="play_ui_animation" from="BattleDirector" to="UIManager" method="_on_battle_director_play_ui_animation"]
+[connection signal="debug_signal" from="BattleDirector" to="CanvasLayer/UIManager" method="_on_battle_manager_debug_signal"]
+[connection signal="play_ui_animation" from="BattleDirector" to="CanvasLayer/UIManager" method="_on_battle_director_play_ui_animation"]
 [connection signal="phase_changed" from="BattleDirector/BattlePhaseManager" to="BattleDirector" method="_on_battle_phase_manager_phase_changed"]
-[connection signal="start_animation_finished" from="UIManager" to="BattleDirector" method="_on_ui_manager_start_animation_finished"]
-[connection signal="animation_finished" from="UIManager/UIAnimationPlayer" to="UIManager" method="_on_ui_animation_player_animation_finished"]
+[connection signal="ui_change" from="BattleDirector/BattlePhaseManager" to="CanvasLayer/UIManager" method="_on_battle_phase_manager_ui_change"]
+[connection signal="start_animation_finished" from="CanvasLayer/UIManager" to="BattleDirector" method="_on_ui_manager_start_animation_finished"]
+[connection signal="animation_finished" from="CanvasLayer/UIManager/UIAnimationPlayer" to="CanvasLayer/UIManager" method="_on_ui_animation_player_animation_finished"]

@@ -5,8 +5,9 @@ class_name BattlePhase
 var _name: String
 var is_active: bool
 signal change_condition_met(to_phase: BattlePhase)
+signal ui_change(payload: Dictionary)
 
-func start_with_params(params):
+func start_with_params(_params):
 	visible = true
 	is_active = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
