@@ -2,6 +2,8 @@ extends Control
 
 class_name UIManager
 
+const UIInstructionType = InstructionType.UI
+
 @onready var _debug_label = $Gradient/DebugLabel
 @onready var _ui_animation_player = $UIAnimationPlayer
 @onready var _action_panels = $ActionPanels
@@ -28,18 +30,18 @@ func _on_battle_director_play_ui_animation(animation_name):
 	await ready
 	_ui_animation_player.play(animation_name)
 
-func _on_battle_phase_manager_ui_change(payload: Dictionary):
-	var action = payload["action"]
-	if not action:
+func _on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: Dictionary):
+
+	if instruction == null:
 		push_warning("WARNING: No action for \"ui_change\"")
 		return
 	
-	match action:
-		"disable_all_action_panels":
+	match instruction:
+		UIInstructionType.DISABLE_ALL_ACTION_PANELS:
 			_disable_all_action_panels()
-		"enable_action_panel":
+		UIInstructionType.ENABLE_PANEL:
 			_enable_action_panel(payload)
-		"clear_focused_panel":
+		UIInstructionType.CLEAR_FOCUSED_PANEL:
 			_clear_focused_panel()
 		_:
 			pass

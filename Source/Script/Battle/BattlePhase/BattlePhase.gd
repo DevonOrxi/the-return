@@ -2,10 +2,12 @@ extends Node2D
 
 class_name BattlePhase
 
+const UIInstructionType = InstructionType.UI
+
 var _name: String
 var is_active: bool
 signal change_condition_met(to_phase: BattlePhase)
-signal ui_change(payload: Dictionary)
+signal ui_change(instruction: UIInstructionType, payload: Dictionary)
 
 func start_with_params(_params):
 	visible = true

@@ -37,17 +37,12 @@ func _init():
 func start_with_params(params):
 	super.start_with_params(params)
 	
-	var disable_panels = {}
-	disable_panels["action"] = "disable_all_action_panels"
+	var change_payload = {}
+	change_payload["enable_panel_target"] = "BaseAction"
+	change_payload["is_focus"] = true
 	
-	var change_panel = {}
-	change_panel["action"] = "enable_action_panel"
-	change_panel["enable_panel_target"] = "BaseAction"
-	change_panel["is_focus"] = true
-	
-	ui_change.emit(disable_panels)
-	ui_change.emit(change_panel)
-	
+	ui_change.emit(UIInstructionType.DISABLE_ALL_ACTION_PANELS, {})
+	ui_change.emit(UIInstructionType.ENABLE_PANEL, change_payload)
 
 func _process(_delta):
 	# Placeholder
