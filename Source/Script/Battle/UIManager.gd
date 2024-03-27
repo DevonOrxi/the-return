@@ -7,6 +7,9 @@ const UIInstructionType = InstructionType.UI
 @onready var _debug_label = $Gradient/DebugLabel
 @onready var _ui_animation_player = $UIAnimationPlayer
 @onready var _action_panels = $ActionPanels
+@onready var _target_pointers = $Cursors/TargetPointers
+
+@onready var _placeholder_command_list = $ActionPanels/BaseAction/MarginContainer/Commands
 
 signal start_animation_finished
 
@@ -38,7 +41,8 @@ func _on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload:
 	
 	match instruction:
 		UIInstructionType.DISABLE_ALL_ACTION_PANELS:
-			_disable_all_action_panels()
+			_hide_all_action_panels()
+			_clear_focused_panel()
 		UIInstructionType.ENABLE_PANEL:
 			_enable_action_panel(payload)
 		UIInstructionType.CLEAR_FOCUSED_PANEL:
@@ -46,7 +50,7 @@ func _on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload:
 		_:
 			pass
 
-func _disable_all_action_panels():
+func _hide_all_action_panels():
 	_action_panels\
 		.get_children()\
 		.filter(func is_control(node): return node is Control)\
@@ -70,6 +74,14 @@ func _enable_action_panel(payload: Dictionary):
 	
 	if payload["is_focus"]:
 		_focused_panel = panel
+	
+	# TODO: Refactor, make geneneric
+	var cursor = _target_pointers.get_child(0) as Control
+	var element = _placeholder_command_list.get_child(0) as Control
+	if cursor and element:
+		cursor.visible = true
+		var position = element.get_screen_position() + Vector2(-6, element.size.y / 2)
+		cursor.set_global_position(position)
 
 func _clear_focused_panel():
 	_focused_panel = null

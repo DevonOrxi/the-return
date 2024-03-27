@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://2qkkk18xs7ko"]
+[gd_scene load_steps=44 format=3 uid="uid://2qkkk18xs7ko"]
 
 [ext_resource type="Script" path="res://Source/Script/Battle/Encounter.gd" id="1_cn4w5"]
 [ext_resource type="Script" path="res://Source/Script/Battle/BattleManager.gd" id="2_m5152"]
@@ -8,7 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="6_8g0j1"]
 [ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="7_hh4o3"]
 [ext_resource type="Script" path="res://Source/Script/Battle/UIManager.gd" id="8_d3th6"]
+[ext_resource type="Texture2D" uid="uid://cnhpbdoql5sgw" path="res://Assets/UI/Cursors/arrow-down.png" id="9_6vlpy"]
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Assets/Fonts/m6x11plus.ttf" id="9_p5plo"]
+[ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Assets/UI/Cursors/cursor_hand.png" id="10_15xvk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
 atlas = ExtResource("6_8g0j1")
@@ -131,6 +133,108 @@ font_size = 36
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Animation" id="Animation_llbrw"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_s3tvx"]
+resource_name = "spin"
+length = 1.6
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.25, 0.38, 0.5),
+"transitions": PackedFloat32Array(1, 4.59479, 1, 1, 1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 2.08165e-12), Vector2(2.08165e-12, -4), Vector2(2.08165e-12, 2.08165e-12), Vector2(2.08165e-12, 4), Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8, 1.04, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2.08165e-12, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s2gds"]
+_data = {
+"RESET": SubResource("Animation_llbrw"),
+"spin": SubResource("Animation_s3tvx")
+}
+
+[sub_resource type="Animation" id="Animation_qf5sy"]
+resource_name = "RESET"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointerImage:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-30, -10)]
+}
+
+[sub_resource type="Animation" id="Animation_7o4mf"]
+resource_name = "point"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointerImage:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 2),
+"transitions": PackedFloat32Array(1, 3, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-30, -10), Vector2(-34, -10), Vector2(-30, -10), Vector2(-26, -10), Vector2(-30, -10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l0ust"]
+_data = {
+"RESET": SubResource("Animation_qf5sy"),
+"point": SubResource("Animation_7o4mf")
+}
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cp0nv"]
 blend_mode = 3
 
@@ -205,13 +309,13 @@ script = ExtResource("2_m5152")
 script = ExtResource("5_maqqs")
 
 [node name="Battlers" type="Node2D" parent="BattleDirector"]
+y_sort_enabled = true
 
 [node name="Players" type="Node2D" parent="BattleDirector/Battlers"]
 
 [node name="Battler" type="Node2D" parent="BattleDirector/Battlers/Players"]
 position = Vector2(491, 256)
 script = ExtResource("5_npck5")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Players/Battler"]
 texture_filter = 1
@@ -226,6 +330,12 @@ libraries = {
 "": SubResource("AnimationLibrary_kmrlb")
 }
 autoplay = "idle"
+
+[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Players/Battler"]
+position = Vector2(0, -87)
+
+[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Players/Battler"]
+position = Vector2(-54, -47)
 
 [node name="Enemies" type="Node2D" parent="BattleDirector/Battlers"]
 
@@ -263,52 +373,114 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
-[node name="BaseAction" type="Panel" parent="CanvasLayer/UIManager/ActionPanels"]
+[node name="BaseAction" type="PanelContainer" parent="CanvasLayer/UIManager/ActionPanels"]
 visible = false
-clip_contents = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -3.0
-offset_top = -51.0
-offset_right = 97.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 282.0
+offset_top = 175.0
+offset_right = 386.0
+offset_bottom = 271.0
 metadata/_edit_group_ = true
 
+[node name="Panel" type="Panel" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
+modulate = Color(0, 0, 0, 0.792157)
+clip_contents = true
+layout_mode = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_right = 2.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Container" type="VBoxContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer"]
+[node name="Commands" type="VBoxContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="Attack" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Container"]
+[node name="Attack" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Commands"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "ATTACK"
 label_settings = SubResource("LabelSettings_bv3gw")
 
-[node name="Defend" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Container"]
+[node name="Defend" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Commands"]
 layout_mode = 2
 text = "DEFEND
 "
 label_settings = SubResource("LabelSettings_bv3gw")
+
+[node name="Cursors" type="Control" parent="CanvasLayer/UIManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ActorPointers" type="Control" parent="CanvasLayer/UIManager/Cursors"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ActorPointer" type="Control" parent="CanvasLayer/UIManager/Cursors/ActorPointers"]
+anchors_preset = 0
+offset_left = 471.0
+offset_top = 146.0
+offset_right = 511.0
+offset_bottom = 186.0
+metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager/Cursors/ActorPointers/ActorPointer"]
+root_node = NodePath("../PointerImage")
+libraries = {
+"": SubResource("AnimationLibrary_s2gds")
+}
+autoplay = "spin"
+
+[node name="PointerImage" type="TextureRect" parent="CanvasLayer/UIManager/Cursors/ActorPointers/ActorPointer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("9_6vlpy")
+stretch_mode = 3
+
+[node name="TargetPointers" type="Control" parent="CanvasLayer/UIManager/Cursors"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TargetPointer" type="Control" parent="CanvasLayer/UIManager/Cursors/TargetPointers"]
+visible = false
+anchors_preset = 0
+offset_left = 437.0
+offset_top = 209.0
+offset_right = 437.0
+offset_bottom = 209.0
+
+[node name="PointerImage" type="TextureRect" parent="CanvasLayer/UIManager/Cursors/TargetPointers/TargetPointer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -10.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("10_15xvk")
+stretch_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager/Cursors/TargetPointers/TargetPointer"]
+libraries = {
+"": SubResource("AnimationLibrary_l0ust")
+}
 
 [node name="Gradient" type="TextureRect" parent="CanvasLayer/UIManager"]
 material = SubResource("CanvasItemMaterial_cp0nv")
@@ -319,6 +491,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_203kq")
+metadata/_edit_lock_ = true
 
 [node name="DebugLabel" type="Label" parent="CanvasLayer/UIManager/Gradient"]
 clip_contents = true
