@@ -6,7 +6,7 @@ const UIInstructionType = InstructionType.UI
 
 var _name: String
 var is_active: bool
-signal change_condition_met(to_phase: BattlePhase)
+signal change_condition_met(to_phase: BattlePhase, action: Dictionary)
 signal ui_change(instruction: UIInstructionType, payload: Dictionary)
 
 func start_with_params(_params):

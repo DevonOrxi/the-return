@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://2qkkk18xs7ko"]
+[gd_scene load_steps=41 format=3 uid="uid://2qkkk18xs7ko"]
 
 [ext_resource type="Script" path="res://Source/Script/Battle/Encounter.gd" id="1_cn4w5"]
 [ext_resource type="Script" path="res://Source/Script/Battle/BattleManager.gd" id="2_m5152"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://Source/Script/Battle/UIManager.gd" id="8_d3th6"]
 [ext_resource type="Texture2D" uid="uid://cnhpbdoql5sgw" path="res://Assets/UI/Cursors/arrow-down.png" id="9_6vlpy"]
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Assets/Fonts/m6x11plus.ttf" id="9_p5plo"]
-[ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Assets/UI/Cursors/cursor_hand.png" id="10_15xvk"]
+[ext_resource type="Script" path="res://Source/Script/Battle/UI/ActionPanels/BaseActionPanel.gd" id="9_ra5gt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
 atlas = ExtResource("6_8g0j1")
@@ -127,11 +127,7 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_bv3gw"]
-font = ExtResource("9_p5plo")
-font_size = 36
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5peuq"]
 
 [sub_resource type="Animation" id="Animation_llbrw"]
 resource_name = "RESET"
@@ -194,45 +190,6 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_llbrw"),
 "spin": SubResource("Animation_s3tvx")
-}
-
-[sub_resource type="Animation" id="Animation_qf5sy"]
-resource_name = "RESET"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointerImage:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-30, -10)]
-}
-
-[sub_resource type="Animation" id="Animation_7o4mf"]
-resource_name = "point"
-loop_mode = 1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointerImage:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 2),
-"transitions": PackedFloat32Array(1, 3, 1, 1, 1),
-"update": 0,
-"values": [Vector2(-30, -10), Vector2(-34, -10), Vector2(-30, -10), Vector2(-26, -10), Vector2(-30, -10)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_l0ust"]
-_data = {
-"RESET": SubResource("Animation_qf5sy"),
-"point": SubResource("Animation_7o4mf")
 }
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cp0nv"]
@@ -375,43 +332,35 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="BaseAction" type="PanelContainer" parent="CanvasLayer/UIManager/ActionPanels"]
+[node name="BaseAction" type="MarginContainer" parent="CanvasLayer/UIManager/ActionPanels"]
 visible = false
-layout_mode = 0
-offset_left = 282.0
-offset_top = 175.0
-offset_right = 386.0
-offset_bottom = 271.0
+layout_mode = 2
+offset_left = 309.0
+offset_top = 154.0
+offset_right = 329.0
+offset_bottom = 174.0
+script = ExtResource("9_ra5gt")
 metadata/_edit_group_ = true
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
-modulate = Color(0, 0, 0, 0.792157)
-clip_contents = true
+[node name="Panel" type="ColorRect" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
+modulate = Color(0, 0, 0, 1)
+material = SubResource("CanvasItemMaterial_5peuq")
 layout_mode = 2
+color = Color(0, 0, 0, 0.65098)
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Commands" type="VBoxContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer"]
+[node name="Elements" type="GridContainer" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-
-[node name="Attack" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Commands"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "ATTACK"
-label_settings = SubResource("LabelSettings_bv3gw")
-
-[node name="Defend" type="Label" parent="CanvasLayer/UIManager/ActionPanels/BaseAction/MarginContainer/Commands"]
-layout_mode = 2
-text = "DEFEND
-"
-label_settings = SubResource("LabelSettings_bv3gw")
 
 [node name="Cursors" type="Control" parent="CanvasLayer/UIManager"]
 layout_mode = 1
@@ -420,6 +369,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="ActorPointers" type="Control" parent="CanvasLayer/UIManager/Cursors"]
 anchors_preset = 0
@@ -449,38 +399,10 @@ pivot_offset = Vector2(20, 20)
 texture = ExtResource("9_6vlpy")
 stretch_mode = 3
 
-[node name="TargetPointers" type="Control" parent="CanvasLayer/UIManager/Cursors"]
+[node name="SelectionCursors" type="Control" parent="CanvasLayer/UIManager/Cursors"]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="TargetPointer" type="Control" parent="CanvasLayer/UIManager/Cursors/TargetPointers"]
-visible = false
-anchors_preset = 0
-offset_left = 437.0
-offset_top = 209.0
-offset_right = 437.0
-offset_bottom = 209.0
-
-[node name="PointerImage" type="TextureRect" parent="CanvasLayer/UIManager/Cursors/TargetPointers/TargetPointer"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -10.0
-offset_bottom = 14.0
-grow_horizontal = 0
-grow_vertical = 2
-texture = ExtResource("10_15xvk")
-stretch_mode = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager/Cursors/TargetPointers/TargetPointer"]
-libraries = {
-"": SubResource("AnimationLibrary_l0ust")
-}
 
 [node name="Gradient" type="TextureRect" parent="CanvasLayer/UIManager"]
 material = SubResource("CanvasItemMaterial_cp0nv")
