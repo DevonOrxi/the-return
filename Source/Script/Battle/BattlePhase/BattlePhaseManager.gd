@@ -8,16 +8,17 @@ var _current_phase: BattlePhase
 signal phase_changed(to_phase: BattlePhase)
 signal ui_change(instruction: UIInstructionType, payload: Dictionary)
 
-func start_with_config(config: BattleConfiguration):
+func setup(config: BattleConfiguration):
 	for phase in config.phases:
 		add_child(phase)
 	
 	_current_phase = config.phases[0]
 	_current_phase.change_condition_met.connect(_change_phase)
-	_current_phase.start()
-	
 	_current_phase.ui_change.connect(_ui_change)
 	
+
+func start():
+	_current_phase.start()
 	_change_phase(_current_phase)
 
 func _change_phase(to_phase: BattlePhase):

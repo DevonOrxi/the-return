@@ -1,7 +1,7 @@
 [gd_scene load_steps=41 format=3 uid="uid://2qkkk18xs7ko"]
 
 [ext_resource type="Script" path="res://Source/Script/Battle/Encounter.gd" id="1_cn4w5"]
-[ext_resource type="Script" path="res://Source/Script/Battle/BattleManager.gd" id="2_m5152"]
+[ext_resource type="Script" path="res://Source/Script/Battle/BattleDirector.gd" id="2_m5152"]
 [ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Assets/Backgrounds/1-night.png" id="3_ahfx8"]
 [ext_resource type="Script" path="res://Source/Script/Battle/BattlePhase/BattlePhaseManager.gd" id="5_maqqs"]
 [ext_resource type="Script" path="res://Source/Script/Battle/Battler/Battler.gd" id="5_npck5"]
@@ -443,7 +443,7 @@ offset_top = -36.0
 offset_right = -325.0
 offset_bottom = 36.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 size_flags_horizontal = 4
 text = "BATTLE START"
 label_settings = SubResource("LabelSettings_dugku")
@@ -455,10 +455,3 @@ uppercase = true
 libraries = {
 "": SubResource("AnimationLibrary_dq2om")
 }
-
-[connection signal="debug_signal" from="BattleDirector" to="CanvasLayer/UIManager" method="_on_battle_manager_debug_signal"]
-[connection signal="play_ui_animation" from="BattleDirector" to="CanvasLayer/UIManager" method="_on_battle_director_play_ui_animation"]
-[connection signal="phase_changed" from="BattleDirector/BattlePhaseManager" to="BattleDirector" method="_on_battle_phase_manager_phase_changed"]
-[connection signal="ui_change" from="BattleDirector/BattlePhaseManager" to="CanvasLayer/UIManager" method="_on_battle_phase_manager_ui_change"]
-[connection signal="start_animation_finished" from="CanvasLayer/UIManager" to="BattleDirector" method="_on_ui_manager_start_animation_finished"]
-[connection signal="animation_finished" from="CanvasLayer/UIManager/UIAnimationPlayer" to="CanvasLayer/UIManager" method="_on_ui_animation_player_animation_finished"]

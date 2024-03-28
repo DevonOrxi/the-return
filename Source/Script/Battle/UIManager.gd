@@ -15,25 +15,20 @@ signal start_animation_finished
 var _focused_panel: UIActionPanel
 
 func _ready():
-	pass
+	_ui_animation_player.animation_finished.connect(on_ui_animation_player_animation_finished)
 
-func _process(_delta):
-	pass
-
-func _on_battle_manager_debug_signal(text: String):
+func on_battle_director_debug_signal(text: String):
 	_debug_label.text = text
 
-func _on_ui_animation_player_animation_finished(anim_name):
+func on_ui_animation_player_animation_finished(anim_name):
 	if anim_name == "intro":
 		start_animation_finished.emit()
 
 # TODO: Change to Intro Phase
-func _on_battle_director_play_ui_animation(animation_name):
-	await ready
+func on_battle_director_play_ui_animation(animation_name):
 	_ui_animation_player.play(animation_name)
 
-func _on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: Dictionary):
-
+func on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: Dictionary):
 	if instruction == null:
 		push_warning("WARNING: No action for \"ui_change\"")
 		return
@@ -105,3 +100,7 @@ func _clear_all_selection_cursors():
 	for child in children:
 		_selection_cursors.remove_child(child)
 		child.queue_free()
+
+
+func _on_ui_animation_player_animation_finished(anim_name):
+	pass # Replace with function body.
