@@ -32,16 +32,17 @@ func _build_turn_order():
 	
 	_turns.append_array(players)
 	_turns.append_array(enemies)
-	_turns.sort_custom(_is_battler_speed_faster)
-	
-func _is_battler_speed_faster(a: Battler, b: Battler) -> bool:
-	return a.get_speed_stat() > b.get_speed_stat()
 
 func on_ui_manager_start_animation_finished():
 	# TODO: Move to setup
-	_current_actor = _turns[0]
-	_battle_configuration.setup_with(_current_actor)
 	
+	_current_actor = _turns[0]
+	
+	var phase_data = {
+		"actor" = _current_actor
+	}
+	
+	_battle_configuration.setup(phase_data)
 	_phase_manager.setup(_battle_configuration)
 	_phase_manager.start()
 

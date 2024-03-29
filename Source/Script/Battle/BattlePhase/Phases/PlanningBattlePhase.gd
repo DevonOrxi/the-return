@@ -2,49 +2,55 @@ extends BattlePhase
 
 class_name PlanningBattlePhase
 
-enum ActionType {
-	SELECT_ACTOR,
-	SELECT_BASE_ACTION,
-	SELECT_ABILITY,
-	ABILITY_SPECIFICS,
-	TARGET_ENEMY_ALL,
-	TARGET_ENEMY_SINGLE,
-	TARGET_SELF,
-	TARGET_ALLY_SINGLE,
-	TARGET_ALLY_ALL,
-	TARGET_ANY,
-	EXECUTE
-}
-
-class Action:
-	var _stack: Array[ActionType]
-	var _stack_pointer = 0
-	var name: String
-	var args: Array
-
-class ActionResult:
-	
-	var args = {
-		
-	}
-
 class NavigationMap:
+	var looping: bool
 	var grid: Dictionary
 	var dimensions: Vector2
+	var pointer: Vector2
+	
+	func move_pointer_by(movement: Vector2):
+		var result = pointer + movement
+		
+		if result.x >= dimensions.x:
+			if looping:
+				result.x %= dimensions.x
+			else:
+				result.x = dimensions.x - 1
+		
+		if result.y >= dimensions.y:
+			if looping:
+				result.y %= dimensions.y
+			else:
+				result.y = dimensions.y - 1
 
-var next_phase: BattlePhase
+class PlanningStep:
+	var navigation_map: NavigationMap
+	var partial_result: Dictionary
 
-#var _navigationStack: Array[ActionType]
+class BattleInfo:
+	var actor: Battler
+
+var _next_phase: BattlePhase
 var _actor: Battler
-var _action_result: ActionResult
+var _battle_info: BattleInfo
+var _action_result: Dictionary
 var _current_navigation_map: NavigationMap
 
 func _init():
 	name = "Planning"
 	_name = "Planning"
 
-func start_with_params(params):
-	super.start_with_params(params)
+func setup(phase_data: Dictionary = {}):
+	_battle_info = BattleInfo.new()
+	
+	var actor = phase_data["actor"] as Battler
+	if not actor:
+		push_error("ERROR: No actor for Planning Phase!")
+	
+	_battle_info.actor = actor
+
+func start():
+	super.start()
 	
 	# TODO: Refactor, make generic
 	var change_payload = {}
@@ -64,16 +70,17 @@ func _process(_delta):
 	
 
 func _check_player_input():
-	
-	
+	#
+	#
 	# Placeholder
 	if Input.is_action_just_pressed("ui_accept"):
-		change_condition_met.emit(next_phase, {})
+		change_condition_met.emit(_next_phase, {})
 
 func exit():
 	super.exit()
 	
 	_actor = null
+	_battle_info = null
 
-func set_actor(actor: Battler):
-	_actor = actor
+func set_next_phase(phase: BattlePhase):
+	_next_phase = phase

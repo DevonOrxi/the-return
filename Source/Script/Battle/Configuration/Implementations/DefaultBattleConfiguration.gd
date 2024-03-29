@@ -2,7 +2,7 @@ extends BattleConfiguration
 
 class_name DefaultBattleConfiguration
 	
-func setup_with(actor: Battler):
+func setup(phases_data: Dictionary):
 	var intro = MockPhase.new()
 	var planning = PlanningBattlePhase.new()
 	var execution = MockPhase.new()
@@ -11,8 +11,8 @@ func setup_with(actor: Battler):
 	intro.set_phase_name("Intro")
 	intro.next_phase = planning
 	
-	planning.set_actor(actor)
-	planning.next_phase = execution
+	planning.setup(phases_data)
+	planning.set_next_phase(execution)
 	
 	execution.set_phase_name("Execution")
 	execution.next_phase = planning

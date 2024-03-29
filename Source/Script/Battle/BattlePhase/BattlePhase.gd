@@ -5,24 +5,24 @@ class_name BattlePhase
 const UIInstructionType = InstructionType.UI
 
 var _name: String
-var is_active: bool
+var _is_active: bool
 signal change_condition_met(to_phase: BattlePhase, action: Dictionary)
 signal ui_change(instruction: UIInstructionType, payload: Dictionary)
 
-func start_with_params(_params):
+func start():
 	visible = true
-	is_active = true
+	_is_active = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
-func start():
-	start_with_params(null)
+func setup(phase_data: Dictionary = {}):
+	pass
 
 func _ready():
 	exit()
 
 func exit():
 	visible = false
-	is_active = false
+	_is_active = false
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 func set_phase_name(new_name: String):
