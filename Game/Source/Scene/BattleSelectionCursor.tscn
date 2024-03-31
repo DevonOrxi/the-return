@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbktb84caprlv"]
+
+[ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Game/Assets/UI/Cursors/cursor_hand.png" id="1_cwfo4"]
+
+[sub_resource type="Animation" id="Animation_qf5sy"]
+resource_name = "RESET"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointerImage:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-30, -10)]
+}
+
+[sub_resource type="Animation" id="Animation_7o4mf"]
+resource_name = "point"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointerImage:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 2),
+"transitions": PackedFloat32Array(1, 3, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-30, -10), Vector2(-34, -10), Vector2(-30, -10), Vector2(-26, -10), Vector2(-30, -10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l0ust"]
+_data = {
+"RESET": SubResource("Animation_qf5sy"),
+"point": SubResource("Animation_7o4mf")
+}
+
+[node name="SelectionCursor" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 437.0
+offset_top = 209.0
+offset_right = 437.0
+offset_bottom = 209.0
+
+[node name="PointerImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -10.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("1_cwfo4")
+stretch_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l0ust")
+}
+autoplay = "point"

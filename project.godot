@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="The Return"
-run/main_scene="res://Source/Scene/Encounter.tscn"
+run/main_scene="res://Core/Source/Scene/Encounter.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-InstructionType="*res://Source/Script/Battle/Action/Instruction/InstructionType.gd"
+InstructionType="*res://Core/Source/Script/Battle/Action/Instruction/InstructionType.gd"
 
 [display]
 
