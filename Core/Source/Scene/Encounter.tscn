@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/UI/UIManager.gd" id="8_d3th6"]
 [ext_resource type="Texture2D" uid="uid://cnhpbdoql5sgw" path="res://Game/Assets/UI/Cursors/arrow-down.png" id="9_6vlpy"]
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Game/Assets/Fonts/m6x11plus.ttf" id="9_p5plo"]
-[ext_resource type="Script" path="res://Core/Source/Script/Battle/UI/ActionPanels/BaseActionPanel.gd" id="9_ra5gt"]
+[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BaseActionPanel.gd" id="9_ra5gt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
 atlas = ExtResource("6_8g0j1")
