@@ -2,7 +2,7 @@ extends Control
 
 class_name UIActionPanel
 
-@onready var elements = $MarginContainer/Elements
+var elements: GridContainer
 
 func setup(payload: Dictionary):
 	pass

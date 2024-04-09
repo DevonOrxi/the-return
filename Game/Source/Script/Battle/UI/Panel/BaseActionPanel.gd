@@ -1,6 +1,9 @@
 extends UIActionPanel
 
-const BattleLabel = preload("res://Game/Source/Scene/BattleBasicLabel.tscn")
+const BattleLabel = preload("res://Game/Source/Scene/UI/BattleBasicLabel.tscn")
+
+func _ready():
+	elements = $MarginContainer/Elements
 
 func setup(payload: Dictionary):
 	for n in elements.get_children():

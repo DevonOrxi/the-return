@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbktb84caprlv"]
+[gd_scene load_steps=6 format=3 uid="uid://dbktb84caprlv"]
 
-[ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Game/Assets/UI/Cursors/cursor_hand.png" id="1_cwfo4"]
+[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/SelectionCursor.gd" id="1_4ttus"]
+[ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Game/Assets/UI/Cursors/cursor_hand.png" id="2_vuffa"]
 
 [sub_resource type="Animation" id="Animation_qf5sy"]
 resource_name = "RESET"
@@ -44,10 +45,7 @@ _data = {
 [node name="SelectionCursor" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 437.0
-offset_top = 209.0
-offset_right = 437.0
-offset_bottom = 209.0
+script = ExtResource("1_4ttus")
 
 [node name="PointerImage" type="TextureRect" parent="."]
 layout_mode = 1
@@ -61,7 +59,7 @@ offset_top = -10.0
 offset_bottom = 14.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("1_cwfo4")
+texture = ExtResource("2_vuffa")
 stretch_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

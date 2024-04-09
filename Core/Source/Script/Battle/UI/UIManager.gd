@@ -3,12 +3,12 @@ extends Control
 class_name UIManager
 
 const UIInstructionType = InstructionType.UI
-const SelectionCursor = preload("res://Game/Source/Scene/BattleSelectionCursor.tscn")
+const SelectionCursor = preload("res://Game/Source/Scene/UI/Panels/BattleSelectionCursor.tscn")
 
 @onready var _debug_label = $Gradient/DebugLabel
 @onready var _ui_animation_player = $UIAnimationPlayer
 @onready var _action_panels = $ActionPanels
-@onready var _selection_cursors = $Cursors/SelectionCursors
+@onready var _movable_cursor: SelectionCursor = $Cursors/MovableCursor
 
 signal start_animation_finished
 
@@ -38,10 +38,8 @@ func on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: 
 			_hide_all_action_panels()
 		UIInstructionType.ENABLE_PANEL:
 			_enable_action_panel(payload)
-		UIInstructionType.CLEAR_ALL_SELECTION_CURSORS:
-			_clear_all_selection_cursors()
-		UIInstructionType.SHOW_SELECTION_CURSORS_UI_ELEMENT:
-			_show_selection_cursors_on_ui(payload)
+		UIInstructionType.MOVE_SELECTION_CURSOR_UI:
+			_move_unique_cursor_to_ui(payload)
 		_:
 			pass
 
@@ -61,46 +59,46 @@ func _enable_action_panel(payload: Dictionary):
 	if not payload.has("panel_elements"):
 		push_warning("WARNING: No panel elements for \"enable_action_panel\"")
 		return
-	
-	var target = payload["enable_panel_target"]
+		
+	var target = payload.get("enable_panel_target")
 	
 	var panel = _action_panels.find_child(target) as UIActionPanel
 	if not panel:
 		push_warning("WARNING: No target panel found for \"enable_action_panel\"")
 		return
 	
-	var panel_payload = {}
-	panel_payload["panel_elements"] = payload["panel_elements"]
+	var panel_payload = {
+		"panel_elements" = payload.get("panel_elements")
+	}
+	
 	panel.setup(panel_payload)
-	
 	panel.visible = true
-	_focused_panel = panel
-
-func _show_selection_cursors_on_ui(payload: Dictionary):
-	var cursor_element_indices = payload["cursor_element_indices"] as Array[int]
 	
-	if not cursor_element_indices:
-		push_warning("WARNING: No cursor positions for \"show_selection_cursors\"")
+	if payload.get("is_focus"):
+		_focused_panel = panel
+
+func _move_unique_cursor_to_ui(payload: Dictionary):
+	
+	var index = payload.get("cursor_ui_index") as int
+	if index == null:
+		push_warning("WARNING: No cursor index for \"_move_unique_cursor_to_ui\"")
 		return
 	
-	for index in cursor_element_indices:
-		var cursor = SelectionCursor.instantiate()
-		var element = _focused_panel.elements.get_child(index) as Control
-		
-		if not cursor or not element:
-			return
-		
-		var c_position = element.global_position + Vector2(-6, element.size.y / 2)
-		
-		cursor.set_global_position(c_position)
-		_selection_cursors.add_child(cursor)
-
-func _clear_all_selection_cursors():
-	var children = _selection_cursors.get_children()
-	for child in children:
-		_selection_cursors.remove_child(child)
-		child.queue_free()
-
-
-func _on_ui_animation_player_animation_finished(anim_name):
-	pass # Replace with function body.
+	var element = _focused_panel.elements.get_child(index) as Control
+	
+	if not _movable_cursor or not element:
+		push_warning("WARNING: Invalid params for \"_move_unique_cursor_to_ui\"")
+		return
+	
+	var is_flipped_x = payload.get("is_flipped_x", false)
+	var is_animated = payload.get("is_animated", false)
+	var x_dir = -1 if is_flipped_x else 1
+	var cursor_position = element.global_position
+	
+	if element.has_method("get_cursor_anchor"):
+		cursor_position = element.get_cursor_anchor()
+	
+	_movable_cursor.set_global_position(cursor_position)
+	#_movable_cursor.set_flip_x(is_flipped_x)
+	_movable_cursor.set_animated(is_animated)
+	_movable_cursor.visible = true

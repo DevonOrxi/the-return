@@ -31,13 +31,16 @@ class NavigationMap:
 		
 		pointer = result
 	
-	func load_elements(array: Array):
+	func set_elements(element_grid: Dictionary):
+		_elements = element_grid
+	
+	func load_elements_from_array(array: Array):
 		for i in array.size():
 			var x = i % int(dimensions.x)
 			var y = i / int(dimensions.x)
 			_elements[Vector2(x, y)] = array[i]
 	
-	func get_current_element() -> Vector2:
+	func get_current_element():
 		return _elements[pointer]
 	
 	func get_elements() -> Array:
@@ -70,27 +73,57 @@ class PlanningStep:
 
 class SelectBaseActionPlanningStep extends PlanningStep:
 	
+	# TODO: Change to grid dictionary
 	func setup_nav_map(elements: Array):
 		var dimension_y = mini(elements.size(), 6)
 		_navigation_map.dimensions = Vector2(1, dimension_y)
-		_navigation_map.load_elements(elements)
+		_navigation_map.load_elements_from_array(elements)
 	
 	func show(on_ui_change: Callable):
-		var command_names = _navigation_map.get_elements() as Array[Command]
+		var commands = _navigation_map.get_elements() as Array[Command]
+		var command_names = commands.map(func(cmd: Command): return cmd.get_name())
 		var change_payload = {
-			"enable_panel_target" = "BaseAction",
+			"enable_panel_target" = "BaseActionPanel",
 			"is_focus" = true,
 			"panel_elements" = command_names
 		}
 		
 		var cursor_payload = {
-			"cursor_element_indices" = [_navigation_map.get_element_index()]
+			"cursor_ui_index" = _navigation_map.get_element_index()
 		}
 		
 		if on_ui_change:
 			on_ui_change.call(UIInstructionType.DISABLE_ALL_ACTION_PANELS, {})
 			on_ui_change.call(UIInstructionType.ENABLE_PANEL, change_payload)
-			on_ui_change.call(UIInstructionType.SHOW_SELECTION_CURSORS_UI_ELEMENT, cursor_payload)
+			on_ui_change.call(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
+	
+class SelectTargetPlanningStep extends PlanningStep:
+
+	func setup_nav_map(elements: Array):
+		var dimension_y = mini(elements.size(), 6)
+		_navigation_map.dimensions = Vector2(1, dimension_y)
+		_navigation_map.load_elements_from_array(elements)
+	
+	func show(on_ui_change: Callable):
+		var target = _navigation_map.get_current_element() as Battler
+		var targets = _navigation_map.get_elements()
+		
+		var change_payload = {
+			"enable_panel_target" = "SelectTargetPanel",
+			"is_focus" = true,
+			"panel_elements" = targets
+		}
+		
+		var cursor_payload = {
+			"cursor_ui_index" = _navigation_map.get_element_index(),
+			"is_animated" = true,
+			"is_flipped_x" = true
+		}
+		
+		if on_ui_change:
+			on_ui_change.call(UIInstructionType.DISABLE_ALL_ACTION_PANELS, {})
+			on_ui_change.call(UIInstructionType.ENABLE_PANEL, change_payload)
+			on_ui_change.call(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 
 ########################################################
 
@@ -99,6 +132,7 @@ var _battle_info: BattleInfo
 var _command_stack: Array[Command]
 var _current_command: Command
 var _planning_stack: Array[PlanningStep]
+var _command_ix: int = 0
 var _command_step_ix: int = 0
 
 func _init():
@@ -142,32 +176,49 @@ func set_next_phase(phase: BattlePhase):
 
 func _show_current_planning_step():
 	var step = _planning_stack.back()
-	step.show(_on_planning_step_ui_emit)
+	step.show(_ui_emit)
 
-func _on_planning_step_ui_emit(instruction: UIInstructionType, params: Dictionary):
+func _ui_emit(instruction: UIInstructionType, params: Dictionary):
 	ui_change.emit(instruction, params)
-	
 
 func _setup_select_base_action():
-	var commands = _get_actor_commands()
+	# TODO: Extract some
+	var commands = _battle_info.actor.get_commands()
 	var command_names = commands.map(func(cmd): return cmd.get_name())
 	var base_command_step = CommandStep.new()
+	var base_command = Command.new()
 	var step = SelectBaseActionPlanningStep.new()
 	
+	base_command._name = "Action Select"
 	base_command_step.set_type(CommandStepType.SELECT_BASE_ACTION)
+	base_command.set_steps([base_command_step])
 	
-	step.setup_nav_map(command_names)
+	step.setup_nav_map(commands)
 	step.set_command_step(base_command_step)
+	
+	_planning_stack.assign([step])
+	_command_stack.assign([base_command])
+	_current_command = base_command
+	_command_ix = 0
+	_command_step_ix = 0
+
+func _setup_select_target_enemy_single():
+	var targets = _battle_info.enemies
+	var step = SelectTargetPlanningStep.new()
+	var command_step = CommandStep.new()
+	
+	command_step.set_type(CommandStepType.TARGET_ALLY_SINGLE)
+	
+	step.setup_nav_map(targets)
+	step.set_command_step(command_step)
 	_planning_stack.append(step)
 
 func _setup_current_substep():
 	var current_planning_step = _get_current_planning_step()
 	
 	match current_planning_step.get_command_step_type():
-		CommandStepType.SELECT_BASE_ACTION:
-			_setup_select_base_action()
 		CommandStepType.TARGET_ENEMY_SINGLE:
-			pass
+			_setup_select_target_enemy_single()
 		_:
 			pass
 
@@ -180,7 +231,12 @@ func _handle_current_substep_confirmation():
 	
 	match current_planning_step.get_command_step_type():
 		CommandStepType.SELECT_BASE_ACTION:
-			pass
+			var command = _get_current_navigation_map().get_current_element()
+			if not command:
+				push_warning("WARNING: No command for confirmation in Planning Phase")
+				return
+				
+			_command_stack.append(command)
 		_:
 			pass
 
@@ -192,16 +248,16 @@ func _handle_accept_input():
 
 	if _command_step_ix < command_steps_size - 1:
 		_command_step_ix += 1
-	elif _command_stack.size() > command_stack_old_size:
+	elif _command_ix < _command_stack.size() - 1:
 		_command_step_ix = 0
-		_current_command = _command_stack.back()
+		_command_ix += 1
+		_current_command = _command_stack[_command_ix]
 	else:
 		## EXECUTE PAPA
 		change_condition_met.emit(_next_phase, {})
 		
 	_setup_current_substep()
 	_show_current_planning_step()
-	
 
 func _handle_cancel_input():
 	var stack_size = _planning_stack.size()
@@ -212,10 +268,11 @@ func _handle_cancel_input():
 	
 	if _command_step_ix > 0:
 		_command_step_ix -= 1
-	elif _command_stack.size() >= 1:
+	elif _command_stack.size() > 1:
 		_command_stack.pop_back()
-		_current_command = _command_stack.back()
-		_command_step_ix = _command_stack.size() - 1
+		_command_ix = _command_stack.size() - 1
+		_current_command = _command_stack[_command_ix]
+		_command_step_ix = _current_command.get_steps().size() - 1
 	
 	_planning_stack.pop_back()
 	
@@ -233,21 +290,21 @@ func _handle_movement_input():
 		return
 	
 	var nav_map = _get_current_navigation_map()
+	if nav_map.dimensions == Vector2.ZERO:
+		return
+	
 	nav_map.move_pointer_by(i_vec)
 	
 	var cursor_payload = {
-		"cursor_element_indices" = [nav_map.get_element_index()]
+		"cursor_ui_index" = nav_map.get_element_index()
 	}
 	
-	ui_change.emit(UIInstructionType.CLEAR_ALL_SELECTION_CURSORS, {})
-	ui_change.emit(UIInstructionType.SHOW_SELECTION_CURSORS_UI_ELEMENT, cursor_payload)
+	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 
 func _get_current_command_step() -> CommandStep:
-	var command = _command_stack.back()
-	return command[_command_step_ix]
-
-func _get_actor_commands() -> Array[Command]:
-	return _battle_info.actor.get_commands()
+	var command = _command_stack[_command_ix]
+	var steps = command.get_steps()
+	return steps[_command_step_ix]
 
 func _get_current_planning_step() -> PlanningStep:
 	return _planning_stack.back()

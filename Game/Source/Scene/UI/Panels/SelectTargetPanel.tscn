@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://fpbje6px1ep6"]
+
+[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/Panel/SelectTargetPanel.gd" id="1_tuhqf"]
+
+[node name="SelectTargetPanel" type="MarginContainer"]
+visible = false
+offset_left = 309.0
+offset_top = 154.0
+offset_right = 329.0
+offset_bottom = 174.0
+script = ExtResource("1_tuhqf")
+metadata/_edit_group_ = true
+
+[node name="Elements" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
