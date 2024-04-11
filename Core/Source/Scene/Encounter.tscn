@@ -268,30 +268,30 @@ script = ExtResource("5_maqqs")
 [node name="Battlers" type="Node2D" parent="BattleDirector"]
 y_sort_enabled = true
 
-[node name="Players" type="Node2D" parent="BattleDirector/Battlers"]
+[node name="Allies" type="Node2D" parent="BattleDirector/Battlers"]
 
-[node name="Battler" type="Node2D" parent="BattleDirector/Battlers/Players"]
+[node name="Battler" type="Node2D" parent="BattleDirector/Battlers/Allies"]
 position = Vector2(491, 256)
 script = ExtResource("5_npck5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Players/Battler"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Allies/Battler"]
 texture_filter = 1
 position = Vector2(-21, -41)
 sprite_frames = SubResource("SpriteFrames_njty5")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Players/Battler"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Allies/Battler"]
 root_node = NodePath("../AnimatedSprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_kmrlb")
 }
 autoplay = "idle"
 
-[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Players/Battler"]
+[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Battler"]
 position = Vector2(0, -87)
 
-[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Players/Battler"]
+[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Battler"]
 position = Vector2(-54, -47)
 
 [node name="Enemies" type="Node2D" parent="BattleDirector/Battlers"]
@@ -316,7 +316,7 @@ root_node = NodePath("../AnimatedSprite2D")
 position = Vector2(0, -87)
 
 [node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Enemies/Enemy"]
-position = Vector2(-54, -47)
+position = Vector2(46, -24)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -347,6 +347,10 @@ offset_bottom = 173.0
 
 [node name="SelectTargetPanel" parent="CanvasLayer/UIManager/ActionPanels" instance=ExtResource("10_nx62l")]
 layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 20.0
+offset_bottom = 20.0
 
 [node name="Cursors" type="Control" parent="CanvasLayer/UIManager"]
 layout_mode = 1

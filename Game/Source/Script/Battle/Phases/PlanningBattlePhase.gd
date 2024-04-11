@@ -50,7 +50,17 @@ class NavigationMap:
 		return pointer.y * dimensions.x + pointer.x
 
 class BattleInfo:
-	var actor: Battler
+	var _actor: Battler
+	var _enemy_units: Array[Battler]
+	var _ally_units: Array[Battler]
+	
+	func _init(actor: Battler, allies: Array[Battler], enemies: Array[Battler]):
+		_actor = actor
+		_ally_units = allies
+		_enemy_units = enemies
+	
+	func get_actor_commands() -> Array[Command]:
+		return _actor.get_commands()
 
 class PlanningStep:
 	var _navigation_map: NavigationMap = NavigationMap.new()
@@ -105,8 +115,12 @@ class SelectTargetPlanningStep extends PlanningStep:
 		_navigation_map.load_elements_from_array(elements)
 	
 	func show(on_ui_change: Callable):
-		var target = _navigation_map.get_current_element() as Battler
-		var targets = _navigation_map.get_elements()
+		var targets = _navigation_map\
+			.get_elements()\
+			.map(func(element):\
+				if element.has_method("get_cursor_anchor"):\
+					return element.get_cursor_anchor()\
+			)
 		
 		var change_payload = {
 			"enable_panel_target" = "SelectTargetPanel",
@@ -140,13 +154,16 @@ func _init():
 	_name = "Planning"
 
 func setup(phase_data: Dictionary = {}):
-	_battle_info = BattleInfo.new()
-	
-	var actor = phase_data["actor"] as Battler
+	# TODO: Refactor
+	var actor = phase_data.get("actor") as Battler
 	if not actor:
 		push_error("ERROR: No actor for Planning Phase!")
 	
-	_battle_info.actor = actor
+	var empty: Array[Battler] = []
+	var allies: Array[Battler] = phase_data.get("allies", empty)
+	var enemies: Array[Battler] = phase_data.get("enemies", empty)
+	
+	_battle_info = BattleInfo.new(actor, allies, enemies)
 	
 	_setup_select_base_action()
 
@@ -183,7 +200,7 @@ func _ui_emit(instruction: UIInstructionType, params: Dictionary):
 
 func _setup_select_base_action():
 	# TODO: Extract some
-	var commands = _battle_info.actor.get_commands()
+	var commands = _battle_info.get_actor_commands()
 	var command_names = commands.map(func(cmd): return cmd.get_name())
 	var base_command_step = CommandStep.new()
 	var base_command = Command.new()
@@ -203,20 +220,20 @@ func _setup_select_base_action():
 	_command_step_ix = 0
 
 func _setup_select_target_enemy_single():
-	var targets = _battle_info.enemies
-	var step = SelectTargetPlanningStep.new()
-	var command_step = CommandStep.new()
+	# TODO: Refactor, hide members behind methods!
+	var targets = _battle_info._enemy_units
+	var step: PlanningStep = SelectTargetPlanningStep.new()
 	
-	command_step.set_type(CommandStepType.TARGET_ALLY_SINGLE)
+	var current_step = _get_current_command_step()
 	
 	step.setup_nav_map(targets)
-	step.set_command_step(command_step)
+	step.set_command_step(current_step)
 	_planning_stack.append(step)
 
-func _setup_current_substep():
-	var current_planning_step = _get_current_planning_step()
+func _setup_current_planning_step():
+	var current_command_step = _get_current_command_step()
 	
-	match current_planning_step.get_command_step_type():
+	match current_command_step.get_type():
 		CommandStepType.TARGET_ENEMY_SINGLE:
 			_setup_select_target_enemy_single()
 		_:
@@ -242,7 +259,6 @@ func _handle_current_substep_confirmation():
 
 func _handle_accept_input():
 	var command_steps_size = _current_command.get_steps().size()
-	var command_stack_old_size = _command_stack.size()
 	
 	_handle_current_substep_confirmation()
 
@@ -256,7 +272,7 @@ func _handle_accept_input():
 		## EXECUTE PAPA
 		change_condition_met.emit(_next_phase, {})
 		
-	_setup_current_substep()
+	_setup_current_planning_step()
 	_show_current_planning_step()
 
 func _handle_cancel_input():

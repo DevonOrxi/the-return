@@ -8,5 +8,5 @@ func _init():
 	_name = "Attack"
 	
 	var step = CommandStep.new()
-	step.set_type(CommandStepType.TARGET_ALLY_SINGLE)
+	step.set_type(CommandStepType.TARGET_ENEMY_SINGLE)
 	_steps.assign([step])

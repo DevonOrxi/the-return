@@ -14,6 +14,7 @@ func setup(payload: Dictionary):
 		return
 	
 	for e in p_elements:
+		# TODO: Maybe add name?
 		var child = Control.new()
-		child.name = e
+		child.set_global_position(e)
 		elements.add_child(child)

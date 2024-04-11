@@ -6,9 +6,14 @@ class_name SelectionCursor
 @onready var _image = $PointerImage
 
 const y_offset = -10
+const pointing_animation_name = "point"
+const reset_animation_name = "RESET"
 
 func set_animated(animated):
-	var animation = "RESET" if not animated else "point"
+	if animated and _animation_player.current_animation == pointing_animation_name:
+		return
+	
+	var animation = reset_animation_name if not animated else "point"
 	_animation_player.play(animation)
 
 # TODO: Fix
