@@ -13,14 +13,17 @@ func set_animated(animated):
 	if animated and _animation_player.current_animation == pointing_animation_name:
 		return
 	
-	var animation = reset_animation_name if not animated else "point"
+	var animation = reset_animation_name if not animated else pointing_animation_name
 	_animation_player.play(animation)
 
-# TODO: Fix
 func set_flip_x(flipped):
-	var new_x = size.x * 0 if flipped else -1
-	var new_position = Vector2(new_x, y_offset)
+	var image_width = _image.size.x
+	var new_x = 0
+	
+	if not flipped:
+		new_x = -_image.size.x
 	
 	_image.flip_h = flipped if flipped else false
-	_image.set_position(new_position)
-	
+
+func get_image_size() -> Vector2:
+	return _image.size

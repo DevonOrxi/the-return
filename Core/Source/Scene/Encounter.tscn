@@ -363,6 +363,7 @@ metadata/_edit_lock_ = true
 
 [node name="MovableCursor" parent="CanvasLayer/UIManager/Cursors" instance=ExtResource("10_icjof")]
 visible = false
+layout_mode = 0
 
 [node name="ActorPointers" type="Control" parent="CanvasLayer/UIManager/Cursors"]
 anchors_preset = 0
@@ -445,3 +446,4 @@ libraries = {
 }
 
 [editable path="CanvasLayer/UIManager/ActionPanels/BaseActionPanel"]
+[editable path="CanvasLayer/UIManager/Cursors/MovableCursor"]

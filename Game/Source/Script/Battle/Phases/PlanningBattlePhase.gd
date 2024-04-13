@@ -130,7 +130,7 @@ class SelectTargetPlanningStep extends PlanningStep:
 		
 		var cursor_payload = {
 			"cursor_ui_index" = _navigation_map.get_element_index(),
-			"is_animated" = true,
+			"is_animated" = false,
 			"is_flipped_x" = true
 		}
 		

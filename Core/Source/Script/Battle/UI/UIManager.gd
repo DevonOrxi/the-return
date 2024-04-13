@@ -92,13 +92,15 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 	
 	var is_flipped_x = payload.get("is_flipped_x", false)
 	var is_animated = payload.get("is_animated", false)
-	var x_dir = -1 if is_flipped_x else 1
 	var cursor_position = element.global_position
 	
 	if element.has_method("get_cursor_anchor"):
 		cursor_position = element.get_cursor_anchor()
 	
+	if is_flipped_x:
+		cursor_position.x += _movable_cursor.get_image_size().x
+	
 	_movable_cursor.set_global_position(cursor_position)
-	#_movable_cursor.set_flip_x(is_flipped_x)
+	_movable_cursor.set_flip_x(is_flipped_x)
 	_movable_cursor.set_animated(is_animated)
 	_movable_cursor.visible = true
