@@ -13,10 +13,10 @@ func setup(config: BattleConfiguration):
 		add_child(phase)
 
 func start():
-	_change_phase(get_child(0))
+	_change_phase(get_child(0), {})
 	_current_phase.start()
 
-func _change_phase(to_phase: BattlePhase):
+func _change_phase(to_phase: BattlePhase, payload: Dictionary):
 	if _current_phase != null:
 		_current_phase.change_condition_met.disconnect(_change_phase)
 		_current_phase.ui_change.disconnect(_ui_change)

@@ -1,4 +1,5 @@
 
+# TODO: Extend!!
 class_name CommandStep
 
 const CommandStepType = InstructionType.CommandStepType
@@ -14,3 +15,6 @@ func set_type(type: CommandStepType):
 
 func set_action_components(action_components: Dictionary):
 	_action_components = action_components
+
+func get_action_components():
+	return _action_components

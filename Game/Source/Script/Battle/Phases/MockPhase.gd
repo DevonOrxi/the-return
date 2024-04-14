@@ -17,7 +17,7 @@ func _process(delta: float):
 	if not _is_timer_up():
 		mockTimer += delta
 	else:
-		change_condition_met.emit(next_phase)
+		change_condition_met.emit(next_phase, {})
 
 func _is_timer_up() -> bool:
 	return mockTimer >= 1

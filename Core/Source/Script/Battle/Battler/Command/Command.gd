@@ -12,3 +12,6 @@ func set_steps(steps: Array[CommandStep]):
 
 func get_steps() -> Array[CommandStep]:
 	return _steps
+	
+func get_amount_of_steps() -> int:
+	return _steps.size()

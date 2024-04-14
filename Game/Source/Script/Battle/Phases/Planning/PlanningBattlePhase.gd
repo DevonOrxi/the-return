@@ -82,7 +82,7 @@ func _setup_select_base_action():
 	#var command_names = commands.map(func(cmd): return cmd.get_name())
 	var base_command_step = CommandStep.new()
 	var base_command = Command.new()
-	var step = SelectBaseActionPlanningStep.new()
+	var step = SelectBaseActionPlanningStep.new({})
 	
 	base_command._name = "Action Select"
 	base_command_step.set_type(CommandStepType.SELECT_BASE_ACTION)
@@ -100,12 +100,13 @@ func _setup_select_base_action():
 func _setup_select_target_enemy_single():
 	# TODO: Refactor, hide members behind methods!
 	var targets = _battle_info._enemy_units
-	var step: PlanningStep = SelectTargetPlanningStep.new()
-	
-	var current_step = _get_current_command_step()
+	var current_c_step = _get_current_command_step()
+	var current_p_step = _get_current_planning_step()
+	var new_partials = current_p_step.get_next_action_components()
+	var step: PlanningStep = SelectTargetPlanningStep.new(new_partials)
 	
 	step.setup_nav_map(targets)
-	step.set_command_step(current_step)
+	step.set_command_step(current_c_step)
 	_planning_stack.append(step)
 
 func _setup_current_planning_step():
@@ -139,19 +140,20 @@ func _handle_current_substep_confirmation():
 			pass
 
 func _handle_accept_input():
-	var command_steps_size = _current_command.get_steps().size()
 	
 	_handle_current_substep_confirmation()
-
-	if _command_step_ix < command_steps_size - 1:
+	
+	if _is_last_command_step():
+		_go_to_next_phase()
+		return
+	
+	var current_command_steps = _current_command.get_amount_of_steps()
+	if _command_step_ix < current_command_steps - 1:
 		_command_step_ix += 1
 	elif _command_ix < _command_stack.size() - 1:
 		_command_step_ix = 0
 		_command_ix += 1
 		_current_command = _command_stack[_command_ix]
-	else:
-		## EXECUTE PAPA
-		change_condition_met.emit(_next_phase, {})
 		
 	_setup_current_planning_step()
 	_show_current_planning_step()
@@ -170,9 +172,6 @@ func _handle_cancel_input():
 		_command_step_ix = _current_command.get_steps().size() - 1
 	
 	_planning_stack.pop_back()
-	
-	if _planning_stack.is_empty():
-		_setup_select_base_action()
 	
 	_show_current_planning_step()
 
@@ -196,10 +195,20 @@ func _handle_movement_input():
 	
 	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 
+func _go_to_next_phase():
+	var planning_step = _get_current_planning_step()
+	var last_partial = planning_step.get_next_action_components()
+	change_condition_met.emit(_next_phase, last_partial)
+
 func _get_current_command_step() -> CommandStep:
 	var command = _command_stack[_command_ix]
 	var steps = command.get_steps()
 	return steps[_command_step_ix]
+
+func _is_last_command_step() -> bool:
+	var next_ix = _command_step_ix + 1
+	var steps_in_command = _current_command.get_amount_of_steps()
+	return next_ix >= steps_in_command and _command_ix >= _command_stack.size() - 1 
 
 func _get_current_planning_step() -> PlanningStep:
 	return _planning_stack.back()

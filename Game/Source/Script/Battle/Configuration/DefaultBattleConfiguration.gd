@@ -15,7 +15,7 @@ func setup(phases_data: Dictionary):
 	planning.set_next_phase(execution)
 	
 	execution.set_phase_name("Execution")
-	execution.next_phase = planning
+	execution.next_phase = outro
 	
 	outro.set_phase_name("Outro")
 	
