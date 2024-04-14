@@ -3,7 +3,6 @@ extends Control
 class_name UIManager
 
 const UIInstructionType = InstructionType.UI
-const SelectionCursor = preload("res://Game/Source/Scene/UI/Panels/BattleSelectionCursor.tscn")
 
 @onready var _debug_label = $Gradient/DebugLabel
 @onready var _ui_animation_player = $UIAnimationPlayer

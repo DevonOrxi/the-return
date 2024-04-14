@@ -17,12 +17,6 @@ func set_animated(animated):
 	_animation_player.play(animation)
 
 func set_flip_x(flipped):
-	var image_width = _image.size.x
-	var new_x = 0
-	
-	if not flipped:
-		new_x = -_image.size.x
-	
 	_image.flip_h = flipped if flipped else false
 
 func get_image_size() -> Vector2:

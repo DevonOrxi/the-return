@@ -14,6 +14,7 @@ func start():
 	_is_active = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
+@warning_ignore("unused_parameter")
 func setup(phase_data: Dictionary = {}):
 	pass
 

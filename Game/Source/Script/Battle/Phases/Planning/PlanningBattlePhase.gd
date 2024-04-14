@@ -4,51 +4,6 @@ class_name PlanningBattlePhase
 
 const CommandStepType = InstructionType.CommandStepType
 
-class NavigationMap:
-	var _elements: Dictionary
-	
-	var looping: bool
-	var dimensions: Vector2
-	var pointer: Vector2 = Vector2.ZERO
-	
-	func move_pointer_by(movement: Vector2):
-		var result = pointer + movement
-		
-		# TODO: Check for empty positions
-		if looping:
-			result.x %= dimensions.x
-			result.y %= dimensions.y
-		else:
-			if result.x >= dimensions.x:
-				result.x = dimensions.x - 1
-			elif result.x <= 0:
-				result.x = 0
-				
-			if result.y >= dimensions.y:
-				result.y = dimensions.y - 1
-			elif result.y <= 0:
-				result.y = 0
-		
-		pointer = result
-	
-	func set_elements(element_grid: Dictionary):
-		_elements = element_grid
-	
-	func load_elements_from_array(array: Array):
-		for i in array.size():
-			var x = i % int(dimensions.x)
-			var y = i / int(dimensions.x)
-			_elements[Vector2(x, y)] = array[i]
-	
-	func get_current_element():
-		return _elements[pointer]
-	
-	func get_elements() -> Array:
-		return _elements.values()
-	
-	func get_element_index() -> int:
-		return pointer.y * dimensions.x + pointer.x
-
 class BattleInfo:
 	var _actor: Battler
 	var _enemy_units: Array[Battler]
@@ -61,83 +16,6 @@ class BattleInfo:
 	
 	func get_actor_commands() -> Array[Command]:
 		return _actor.get_commands()
-
-class PlanningStep:
-	var _navigation_map: NavigationMap = NavigationMap.new()
-	var _command_step: CommandStep
-	
-	func set_command_step(command_step: CommandStep):
-		_command_step = command_step
-	
-	func setup_nav_map(elements: Array):
-		pass
-	
-	func get_navigation_map():
-		return _navigation_map
-	
-	func get_command_step_type():
-		return _command_step.get_type()
-	
-	func show(on_ui_change: Callable):
-		pass
-
-class SelectBaseActionPlanningStep extends PlanningStep:
-	
-	# TODO: Change to grid dictionary
-	func setup_nav_map(elements: Array):
-		var dimension_y = mini(elements.size(), 6)
-		_navigation_map.dimensions = Vector2(1, dimension_y)
-		_navigation_map.load_elements_from_array(elements)
-	
-	func show(on_ui_change: Callable):
-		var commands = _navigation_map.get_elements() as Array[Command]
-		var command_names = commands.map(func(cmd: Command): return cmd.get_name())
-		var change_payload = {
-			"enable_panel_target" = "BaseActionPanel",
-			"is_focus" = true,
-			"panel_elements" = command_names
-		}
-		
-		var cursor_payload = {
-			"cursor_ui_index" = _navigation_map.get_element_index()
-		}
-		
-		if on_ui_change:
-			on_ui_change.call(UIInstructionType.DISABLE_ALL_ACTION_PANELS, {})
-			on_ui_change.call(UIInstructionType.ENABLE_PANEL, change_payload)
-			on_ui_change.call(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
-	
-class SelectTargetPlanningStep extends PlanningStep:
-
-	func setup_nav_map(elements: Array):
-		var dimension_y = mini(elements.size(), 6)
-		_navigation_map.dimensions = Vector2(1, dimension_y)
-		_navigation_map.load_elements_from_array(elements)
-	
-	func show(on_ui_change: Callable):
-		var targets = _navigation_map\
-			.get_elements()\
-			.map(func(element):\
-				if element.has_method("get_cursor_anchor"):\
-					return element.get_cursor_anchor()\
-			)
-		
-		var change_payload = {
-			"enable_panel_target" = "SelectTargetPanel",
-			"is_focus" = true,
-			"panel_elements" = targets
-		}
-		
-		var cursor_payload = {
-			"cursor_ui_index" = _navigation_map.get_element_index(),
-			"is_animated" = false,
-			"is_flipped_x" = true
-		}
-		
-		if on_ui_change:
-			on_ui_change.call(UIInstructionType.DISABLE_ALL_ACTION_PANELS, {})
-			on_ui_change.call(UIInstructionType.ENABLE_PANEL, change_payload)
-			on_ui_change.call(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 
 ########################################################
 
@@ -201,7 +79,7 @@ func _ui_emit(instruction: UIInstructionType, params: Dictionary):
 func _setup_select_base_action():
 	# TODO: Extract some
 	var commands = _battle_info.get_actor_commands()
-	var command_names = commands.map(func(cmd): return cmd.get_name())
+	#var command_names = commands.map(func(cmd): return cmd.get_name())
 	var base_command_step = CommandStep.new()
 	var base_command = Command.new()
 	var step = SelectBaseActionPlanningStep.new()
@@ -254,6 +132,9 @@ func _handle_current_substep_confirmation():
 				return
 				
 			_command_stack.append(command)
+		CommandStepType.TARGET_ENEMY_SINGLE:
+			var target_battler = _get_current_navigation_map().get_current_element()
+			
 		_:
 			pass
 
@@ -279,8 +160,6 @@ func _handle_cancel_input():
 	var stack_size = _planning_stack.size()
 	if stack_size <= 1:
 		return
-	
-	var current = _get_current_planning_step()
 	
 	if _command_step_ix > 0:
 		_command_step_ix -= 1
