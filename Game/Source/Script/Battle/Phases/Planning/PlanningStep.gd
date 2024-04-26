@@ -1,15 +1,17 @@
 
 class_name PlanningStep
 
+const CommandStepType = InstructionType.CommandStepType
+
 var _navigation_map: NavigationMap = NavigationMap.new()
-var _command_step: CommandStep
+var _command_type: CommandStepType
 var _partial_action_components: Dictionary
 
 func _init(action_components: Dictionary):
 	_partial_action_components = action_components
 
-func set_command_step(command_step: CommandStep):
-	_command_step = command_step
+func set_command_type(command_type: CommandStepType):
+	_command_type = command_type
 
 @warning_ignore("unused_parameter")
 func setup_nav_map(elements: Array):
@@ -18,15 +20,15 @@ func setup_nav_map(elements: Array):
 func get_navigation_map():
 	return _navigation_map
 
-func get_command_step_type():
-	return _command_step.get_type()
+func get_command_step_type() -> CommandStepType:
+	return _command_type
 
 @warning_ignore("unused_parameter")
 func show(on_ui_change: Callable):
 	pass
 
+func add_action_components(components: Dictionary):
+	_partial_action_components.merge(components, true)
+
 func get_next_action_components() -> Dictionary:
-	var new_components = _partial_action_components.duplicate(true)
-	var command_components = _command_step.get_action_components()
-	new_components.merge(command_components, true)
-	return new_components
+	return _partial_action_components

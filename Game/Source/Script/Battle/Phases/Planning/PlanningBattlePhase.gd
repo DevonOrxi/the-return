@@ -44,6 +44,23 @@ func setup(phase_data: Dictionary = {}):
 	_battle_info = BattleInfo.new(actor, allies, enemies)
 	
 	_setup_select_base_action()
+	_initialize_command_stack()
+
+func _initialize_command_stack():
+	var current_planning_step_type = _get_current_planning_step().get_command_step_type()
+	if current_planning_step_type == null:
+		push_warning("WARNING: No planning step to initialize command stack")
+		return
+	
+	var base_command = Command.new()
+	base_command._name = "Action Select"
+	base_command.set_steps([current_planning_step_type])
+	
+	_command_ix = 0
+	_command_step_ix = 0
+	
+	_command_stack.append(base_command)
+	_current_command = base_command
 
 func start():
 	super.start()
@@ -80,45 +97,38 @@ func _setup_select_base_action():
 	# TODO: Extract some
 	var commands = _battle_info.get_actor_commands()
 	#var command_names = commands.map(func(cmd): return cmd.get_name())
-	var base_command_step = CommandStep.new()
-	var base_command = Command.new()
 	var step = SelectBaseActionPlanningStep.new({})
-	
-	base_command._name = "Action Select"
-	base_command_step.set_type(CommandStepType.SELECT_BASE_ACTION)
-	base_command.set_steps([base_command_step])
+	var command_type = CommandStepType.SELECT_BASE_ACTION
 	
 	step.setup_nav_map(commands)
-	step.set_command_step(base_command_step)
+	step.set_command_type(command_type)
 	
-	_planning_stack.assign([step])
-	_command_stack.assign([base_command])
-	_current_command = base_command
-	_command_ix = 0
-	_command_step_ix = 0
+	_planning_stack.append(step)
 
 func _setup_select_target_enemy_single():
 	# TODO: Refactor, hide members behind methods!
 	var targets = _battle_info._enemy_units
-	var current_c_step = _get_current_command_step()
+	var current_c_type = _get_current_command_step_type()
 	var current_p_step = _get_current_planning_step()
 	var new_partials = current_p_step.get_next_action_components()
 	var step: PlanningStep = SelectTargetPlanningStep.new(new_partials)
 	
 	step.setup_nav_map(targets)
-	step.set_command_step(current_c_step)
+	step.set_command_type(current_c_type)
 	_planning_stack.append(step)
 
 func _setup_current_planning_step():
-	var current_command_step = _get_current_command_step()
+	var current_command_step_type = _get_current_command_step_type()
 	
-	match current_command_step.get_type():
+	match current_command_step_type:
+		CommandStepType.SELECT_BASE_ACTION:
+			_setup_select_base_action()
 		CommandStepType.TARGET_ENEMY_SINGLE:
 			_setup_select_target_enemy_single()
 		_:
 			pass
 
-func _handle_current_substep_confirmation():
+func _handle_current_substep_confirmation(is_last_command_step: bool):
 	var current_planning_step = _get_current_planning_step()
 	
 	if not current_planning_step:
@@ -133,20 +143,22 @@ func _handle_current_substep_confirmation():
 				return
 				
 			_command_stack.append(command)
-		CommandStepType.TARGET_ENEMY_SINGLE:
-			var target_battler = _get_current_navigation_map().get_current_element()
-			
 		_:
 			pass
 
 func _handle_accept_input():
-	
-	_handle_current_substep_confirmation()
+	var is_last_command_step = _is_last_command_step()
+	_handle_current_substep_confirmation(is_last_command_step)
 	
 	if _is_last_command_step():
 		_go_to_next_phase()
 		return
 	
+	_increment_command_stack_ixs()
+	_setup_current_planning_step()
+	_show_current_planning_step()
+
+func _increment_command_stack_ixs():
 	var current_command_steps = _current_command.get_amount_of_steps()
 	if _command_step_ix < current_command_steps - 1:
 		_command_step_ix += 1
@@ -154,15 +166,8 @@ func _handle_accept_input():
 		_command_step_ix = 0
 		_command_ix += 1
 		_current_command = _command_stack[_command_ix]
-		
-	_setup_current_planning_step()
-	_show_current_planning_step()
 
-func _handle_cancel_input():
-	var stack_size = _planning_stack.size()
-	if stack_size <= 1:
-		return
-	
+func _decrement_commmand_stack_ixs():
 	if _command_step_ix > 0:
 		_command_step_ix -= 1
 	elif _command_stack.size() > 1:
@@ -170,9 +175,14 @@ func _handle_cancel_input():
 		_command_ix = _command_stack.size() - 1
 		_current_command = _command_stack[_command_ix]
 		_command_step_ix = _current_command.get_steps().size() - 1
+
+func _handle_cancel_input():
+	if _planning_stack.size() <= 1:
+		return
 	
 	_planning_stack.pop_back()
 	
+	_decrement_commmand_stack_ixs()
 	_show_current_planning_step()
 
 func _handle_movement_input():
@@ -196,11 +206,12 @@ func _handle_movement_input():
 	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 
 func _go_to_next_phase():
+	# TODO: Review
 	var planning_step = _get_current_planning_step()
 	var last_partial = planning_step.get_next_action_components()
 	change_condition_met.emit(_next_phase, last_partial)
 
-func _get_current_command_step() -> CommandStep:
+func _get_current_command_step_type() -> CommandStepType:
 	var command = _command_stack[_command_ix]
 	var steps = command.get_steps()
 	return steps[_command_step_ix]
