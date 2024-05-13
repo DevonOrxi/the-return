@@ -27,8 +27,6 @@ func get_command_step_type() -> CommandStepType:
 func show(on_ui_change: Callable):
 	pass
 
-func add_action_components(components: Dictionary):
-	_partial_action_components.merge(components, true)
-
-func get_next_action_components() -> Dictionary:
-	return _partial_action_components
+@warning_ignore("unused_parameter")
+func get_next_action_components(params: Array) -> Dictionary:
+	return {}
