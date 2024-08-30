@@ -57,11 +57,11 @@ func _get_battler_children_for(node: Node2D) -> Array[Battler]:
 
 
 func _on_battle_phase_manager_turn_ended():
+	_advance_turn()
 	_setup_next_turn()
 
 func _setup_next_turn():
 	_phase_manager.clean()
-	_advance_turn()
 	_update_current_actor()
 	_setup_turn_configuration()
 	_start_phase_manager()

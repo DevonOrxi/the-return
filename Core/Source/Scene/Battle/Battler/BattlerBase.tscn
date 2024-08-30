@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3 uid="uid://crhx3ywdwyhuw"]
+
+[ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Game/Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="1_ado8d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2onxx"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(0, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sykij"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(249, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lqri"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(498, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bam7x"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(747, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a7nb"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(996, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80b8f"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(1245, 0, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by73s"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(0, 100, 249, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alk16"]
+atlas = ExtResource("1_ado8d")
+region = Rect2(249, 100, 249, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_njty5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2onxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sykij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lqri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bam7x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a7nb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80b8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by73s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alk16")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_jn6y1"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kmrlb"]
+_data = {
+"idle": SubResource("Animation_jn6y1")
+}
+
+[node name="BattlerBase" type="Node2D"]
+position = Vector2(491, 256)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-21, -41)
+sprite_frames = SubResource("SpriteFrames_njty5")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_kmrlb")
+}
+autoplay = "idle"
+
+[node name="ActorIndicatorPosition" type="Node2D" parent="."]
+position = Vector2(0, -87)
+
+[node name="TargetIndictatorPosition" type="Node2D" parent="."]
+position = Vector2(-54, -47)

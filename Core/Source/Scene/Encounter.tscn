@@ -1,11 +1,12 @@
-[gd_scene load_steps=42 format=3 uid="uid://2qkkk18xs7ko"]
+[gd_scene load_steps=43 format=3 uid="uid://2qkkk18xs7ko"]
 
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/Encounter.gd" id="1_cn4w5"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/BattleDirector.gd" id="2_m5152"]
 [ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Game/Assets/Backgrounds/1-night.png" id="3_ahfx8"]
+[ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/PlayerBattler.gd" id="5_1u5bv"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/BattlePhase/BattlePhaseManager.gd" id="5_maqqs"]
-[ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battler.gd" id="5_npck5"]
 [ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Game/Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="6_8g0j1"]
+[ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/NPCBattler.gd" id="7_3lnn3"]
 [ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Game/Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="7_hh4o3"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/UI/UIManager.gd" id="8_d3th6"]
 [ext_resource type="Texture2D" uid="uid://cnhpbdoql5sgw" path="res://Game/Assets/UI/Cursors/arrow-down.png" id="9_6vlpy"]
@@ -270,52 +271,52 @@ y_sort_enabled = true
 
 [node name="Allies" type="Node2D" parent="BattleDirector/Battlers"]
 
-[node name="Battler" type="Node2D" parent="BattleDirector/Battlers/Allies"]
+[node name="Paladin" type="Node2D" parent="BattleDirector/Battlers/Allies"]
 position = Vector2(491, 256)
-script = ExtResource("5_npck5")
+script = ExtResource("5_1u5bv")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Allies/Battler"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Allies/Paladin"]
 texture_filter = 1
 position = Vector2(-21, -41)
 sprite_frames = SubResource("SpriteFrames_njty5")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Allies/Battler"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Allies/Paladin"]
 root_node = NodePath("../AnimatedSprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_kmrlb")
 }
 autoplay = "idle"
 
-[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Battler"]
+[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Paladin"]
 position = Vector2(0, -87)
 
-[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Battler"]
+[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Allies/Paladin"]
 position = Vector2(-54, -47)
 
 [node name="Enemies" type="Node2D" parent="BattleDirector/Battlers"]
 
-[node name="Enemy" type="Node2D" parent="BattleDirector/Battlers/Enemies"]
+[node name="Slime" type="Node2D" parent="BattleDirector/Battlers/Enemies"]
 texture_filter = 1
 position = Vector2(132, 241)
-script = ExtResource("5_npck5")
+script = ExtResource("7_3lnn3")
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Enemies/Enemy"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BattleDirector/Battlers/Enemies/Slime"]
 texture_filter = 1
 position = Vector2(21, -45)
 sprite_frames = SubResource("SpriteFrames_p7pyl")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Enemies/Enemy"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Enemies/Slime"]
 root_node = NodePath("../AnimatedSprite2D")
 
-[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Enemies/Enemy"]
+[node name="ActorIndicatorPosition" type="Node2D" parent="BattleDirector/Battlers/Enemies/Slime"]
 position = Vector2(0, -87)
 
-[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Enemies/Enemy"]
+[node name="TargetIndictatorPosition" type="Node2D" parent="BattleDirector/Battlers/Enemies/Slime"]
 position = Vector2(46, -24)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
