@@ -73,10 +73,16 @@ func _update_current_actor():
 	_current_actor = _turns[_turn_index]
 
 func _setup_turn_configuration():
+	# REFACTOR!
+	var isAlly = _allies_group.is_ancestor_of(_current_actor)
+	var good_guys_battlers = _get_battler_children_for(_allies_group)
+	var bad_guys_battlers = _get_battler_children_for(_enemies_group)
+	
+	# DIFERENCIAR IA Y JUGADOR
 	var phase_data = {
 		"actor" = _current_actor,
-		"allies" = _get_battler_children_for(_allies_group),
-		"enemies" = _get_battler_children_for(_enemies_group),
+		"allies" = good_guys_battlers if isAlly else bad_guys_battlers,
+		"enemies" = bad_guys_battlers if isAlly else good_guys_battlers,
 	}
 	
 	_battle_configuration.setup(phase_data)
