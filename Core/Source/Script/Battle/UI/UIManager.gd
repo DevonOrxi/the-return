@@ -78,6 +78,10 @@ func _enable_action_panel(payload: Dictionary):
 
 func _move_unique_cursor_to_ui(payload: Dictionary):
 	
+	if not _movable_cursor:
+		push_warning("WARNING: No cursor for \"_move_unique_cursor_to_ui\"")
+		return
+	
 	var index = payload.get("cursor_ui_index") as int
 	if index == null:
 		push_warning("WARNING: No cursor index for \"_move_unique_cursor_to_ui\"")
@@ -85,7 +89,7 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 	
 	var element = _focused_panel.elements.get_child(index) as Control
 	
-	if not _movable_cursor or not element:
+	if not element:
 		push_warning("WARNING: Invalid params for \"_move_unique_cursor_to_ui\"")
 		return
 	
@@ -95,6 +99,8 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 	
 	if element.has_method("get_cursor_anchor"):
 		cursor_position = element.get_cursor_anchor()
+	else:
+		push_warning("MAYBE WARNING?: No anchor for cursor")
 	
 	if is_flipped_x:
 		cursor_position.x += _movable_cursor.get_image_size().x

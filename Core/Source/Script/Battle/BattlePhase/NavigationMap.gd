@@ -15,15 +15,8 @@ func move_pointer_by(movement: Vector2):
 		result.x %= dimensions.x
 		result.y %= dimensions.y
 	else:
-		if result.x >= dimensions.x:
-			result.x = dimensions.x - 1
-		elif result.x <= 0:
-			result.x = 0
-			
-		if result.y >= dimensions.y:
-			result.y = dimensions.y - 1
-		elif result.y <= 0:
-			result.y = 0
+		result.x = clamp(result.x, 0, dimensions.x - 1)
+		result.y = clamp(result.y, 0, dimensions.y - 1)
 	
 	pointer = result
 

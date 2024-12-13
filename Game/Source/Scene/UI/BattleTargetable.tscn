@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://nqgmx05dp1c"]
+
+[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="1_2jhyl"]
+
+[node name="BattleTargetable" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2jhyl")
+metadata/_edit_use_anchors_ = true

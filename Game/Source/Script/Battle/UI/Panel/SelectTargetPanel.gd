@@ -1,5 +1,7 @@
 extends UIActionPanel
 
+const Targetable = preload("res://Game/Source/Scene/UI/BattleTargetable.tscn")
+
 func _ready():
 	elements = $Elements
 
@@ -14,7 +16,8 @@ func setup(payload: Dictionary):
 		return
 	
 	for e in p_elements:
-		# TODO: Maybe add name?
-		var child = Control.new()
-		child.set_global_position(e)
+		var child = Targetable.instantiate()
+		var position = e.get_cursor_anchor() + e.global_position
+		child.name = e.get_battler_name()
+		child.set_global_position(position)
 		elements.add_child(child)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://calwg5s5fpxqg"]
 
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Game/Assets/Fonts/m6x11plus.ttf" id="1_tt8gn"]
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BattleBasicLabel.gd" id="2_2ppyd"]
+[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="2_p7ttk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bv3gw"]
 font = ExtResource("1_tt8gn")
@@ -13,4 +13,4 @@ outline_color = Color(0, 0, 0, 1)
 size_flags_horizontal = 0
 text = "ATTACK"
 label_settings = SubResource("LabelSettings_bv3gw")
-script = ExtResource("2_2ppyd")
+script = ExtResource("2_p7ttk")

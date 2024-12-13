@@ -14,12 +14,7 @@ func setup_nav_map(elements: Array):
 	_navigation_map.load_elements_from_array(elements)
 
 func show(on_ui_change: Callable):
-	var targets = _navigation_map\
-		.get_elements()\
-		.map(func(element):\
-			if element.has_method("get_cursor_anchor"):\
-				return element.get_cursor_anchor()\
-		)
+	var targets = _navigation_map.get_elements()
 	
 	var change_payload = {
 		"enable_panel_target" = "SelectTargetPanel",

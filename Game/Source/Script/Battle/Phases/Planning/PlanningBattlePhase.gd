@@ -162,11 +162,11 @@ func _handle_cancel_input():
 func _handle_movement_input():
 	var y = int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
 	var x = int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))
-	var i_vec = Vector2(x, y)
 	
 	if not x and not y:
 		return
 	
+	var i_vec = Vector2(x, y)
 	var nav_map = _get_current_navigation_map()
 	if nav_map.dimensions == Vector2.ZERO:
 		return
