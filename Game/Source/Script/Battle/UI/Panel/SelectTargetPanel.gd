@@ -17,7 +17,8 @@ func setup(payload: Dictionary):
 	
 	for e in p_elements:
 		var child = Targetable.instantiate()
-		var position = e.get_cursor_anchor() + e.global_position
+		var position = e.global_position
+		var anchor = e.get_cursor_anchor()
 		child.name = e.get_battler_name()
-		child.set_global_position(position)
+		child.set_global_position(anchor)
 		elements.add_child(child)
