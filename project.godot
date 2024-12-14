@@ -29,6 +29,10 @@ window/size/window_height_override=960
 window/stretch/scale=2.0
 window/stretch/scale_mode="integer"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
