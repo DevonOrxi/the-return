@@ -18,11 +18,11 @@ func setup(phases_data: Dictionary):
 	intro.next_phase = planning
 	
 	planning.setup(phases_data)
-	planning.set_next_phase(execution)
+	#planning.set_next_phase(execution)
 	
 	execution.set_phase_name("Execution")
 	execution.next_phase = outro
 	
 	outro.set_phase_name("Outro")
 	
-	phases.assign([intro, planning, execution, outro])
+	phases.assign([intro, planning])

@@ -21,7 +21,6 @@ func _change_phase(to_phase: BattlePhase, payload: Dictionary):
 	if _current_phase != null:
 		_current_phase.change_condition_met.disconnect(_change_phase)
 		_current_phase.ui_change.disconnect(_ui_change)
-		
 		_current_phase.exit()
 	
 	if to_phase == null:

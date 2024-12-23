@@ -347,11 +347,7 @@ offset_right = 347.0
 offset_bottom = 173.0
 
 [node name="SelectTargetPanel" parent="CanvasLayer/UIManager/ActionPanels" instance=ExtResource("10_nx62l")]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 20.0
-offset_bottom = 20.0
+layout_mode = 1
 
 [node name="Cursors" type="Control" parent="CanvasLayer/UIManager"]
 layout_mode = 1

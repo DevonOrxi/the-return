@@ -1,6 +1,6 @@
 extends UIActionPanel
 
-const Targetable = preload("res://Game/Source/Scene/UI/BattleTargetable.tscn")
+const BattleTargetable = preload("res://Game/Source/Scene/UI/BattleTargetable.tscn")
 
 func _ready():
 	elements = $Elements
@@ -16,9 +16,10 @@ func setup(payload: Dictionary):
 		return
 	
 	for e in p_elements:
-		var child = Targetable.instantiate()
+		var child = BattleTargetable.instantiate()
+		elements.add_child(child)
+		
 		var position = e.global_position
 		var anchor = e.get_cursor_anchor()
 		child.name = e.get_battler_name()
 		child.set_global_position(anchor)
-		elements.add_child(child)

@@ -21,6 +21,8 @@ func on_battle_director_debug_signal(text: String):
 
 func on_ui_animation_player_animation_finished(anim_name):
 	if anim_name == "intro":
+		#Se ejecuta dos veces?
+		_ui_animation_player.animation_finished.disconnect(on_ui_animation_player_animation_finished)
 		start_animation_finished.emit()
 
 # TODO: Change to Intro Phase
@@ -77,7 +79,6 @@ func _enable_action_panel(payload: Dictionary):
 		_focused_panel = panel
 
 func _move_unique_cursor_to_ui(payload: Dictionary):
-	
 	if not _movable_cursor:
 		push_warning("WARNING: No cursor for \"_move_unique_cursor_to_ui\"")
 		return
@@ -88,7 +89,6 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 		return
 	
 	var element = _focused_panel.elements.get_child(index) as Control
-	
 	if not element:
 		push_warning("WARNING: Invalid params for \"_move_unique_cursor_to_ui\"")
 		return
@@ -96,7 +96,8 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 	var is_flipped_x = payload.get("is_flipped_x", false)
 	var is_animated = payload.get("is_animated", false)
 	var cursor_position = element.global_position
-	
+	print("------------->")
+	print(cursor_position)
 	if element.has_method("get_cursor_anchor"):
 		cursor_position = element.get_cursor_anchor()
 	else:
