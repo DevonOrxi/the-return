@@ -11,6 +11,7 @@ func _init():
 	]
 	
 	_name = "Paladin"
+	_flipped_pointer = false
 
 func get_commands() -> Array[Command]:
 	return _commands

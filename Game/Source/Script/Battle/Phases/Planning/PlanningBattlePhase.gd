@@ -168,13 +168,21 @@ func _handle_movement_input():
 	
 	var i_vec = Vector2(x, y)
 	var nav_map = _get_current_navigation_map()
-	if nav_map.dimensions == Vector2.ZERO:
+	if nav_map.get_dimensions() == Vector2.ZERO:
 		return
 	
 	nav_map.move_pointer_by(i_vec)
+	var element = nav_map.get_current_element()
+	var is_flipped_x: bool
+	
+	if element.has_method("has_flipped_pointer"):
+		is_flipped_x = element.has_flipped_pointer()
+	else:
+		is_flipped_x = false
 	
 	var cursor_payload = {
-		"cursor_ui_index" = nav_map.get_element_index()
+		"cursor_ui_index" = nav_map.get_current_element_index(),
+		"is_flipped_x" = is_flipped_x
 	}
 	
 	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)

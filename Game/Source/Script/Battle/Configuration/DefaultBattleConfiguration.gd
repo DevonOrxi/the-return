@@ -25,4 +25,4 @@ func setup(phases_data: Dictionary):
 	
 	outro.set_phase_name("Outro")
 	
-	phases.assign([intro, planning])
+	phases.assign([intro, planning, execution, outro])

@@ -40,7 +40,7 @@ func on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: 
 		UIInstructionType.ENABLE_PANEL:
 			_enable_action_panel(payload)
 		UIInstructionType.MOVE_SELECTION_CURSOR_UI:
-			_move_unique_cursor_to_ui(payload)
+			call_deferred("_move_unique_cursor_to_ui", payload)
 		_:
 			pass
 
@@ -72,6 +72,7 @@ func _enable_action_panel(payload: Dictionary):
 		"panel_elements" = payload.get("panel_elements")
 	}
 	
+	# TODO: Await?
 	panel.setup(panel_payload)
 	panel.visible = true
 	
@@ -93,11 +94,14 @@ func _move_unique_cursor_to_ui(payload: Dictionary):
 		push_warning("WARNING: Invalid params for \"_move_unique_cursor_to_ui\"")
 		return
 	
+	if not element.is_node_ready():
+		push_warning("WARNING: Element not ready for \"_move_unique_cursor_to_ui\"")
+		return
+	
 	var is_flipped_x = payload.get("is_flipped_x", false)
 	var is_animated = payload.get("is_animated", false)
 	var cursor_position = element.global_position
-	print("------------->")
-	print(cursor_position)
+	
 	if element.has_method("get_cursor_anchor"):
 		cursor_position = element.get_cursor_anchor()
 	else:

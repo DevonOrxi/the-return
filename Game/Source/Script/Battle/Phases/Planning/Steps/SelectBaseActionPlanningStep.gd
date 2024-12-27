@@ -10,7 +10,8 @@ func _init(action_components: Dictionary):
 # TODO: Change to grid dictionary
 func setup_nav_map(elements: Array):
 	var dimension_y = mini(elements.size(), 6)
-	_navigation_map.dimensions = Vector2(1, dimension_y)
+	var dimensions = Vector2(1, dimension_y)
+	_navigation_map.set_dimensions(dimensions)
 	_navigation_map.load_elements_from_array(elements)
 
 func show(on_ui_change: Callable):
@@ -23,7 +24,7 @@ func show(on_ui_change: Callable):
 	}
 	
 	var cursor_payload = {
-		"cursor_ui_index" = _navigation_map.get_element_index()
+		"cursor_ui_index" = _navigation_map.get_current_element_index()
 	}
 	
 	if on_ui_change:

@@ -6,7 +6,7 @@ class_name Battler
 
 var _name: String
 #var _stats: Dictionary
-@export var _is_npc: bool # Remove!
+@export var _flipped_pointer: bool
 
 func get_cursor_anchor() -> Vector2:
 	return _cursor_anchor.global_position
@@ -14,5 +14,5 @@ func get_cursor_anchor() -> Vector2:
 func get_battler_name() -> String:
 	return _name
 
-func get_is_npc() -> bool:
-	return _is_npc
+func has_flipped_pointer() -> bool:
+	return _flipped_pointer

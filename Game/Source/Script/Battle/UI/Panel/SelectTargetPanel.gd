@@ -15,11 +15,16 @@ func setup(payload: Dictionary):
 		push_warning("WARNING: No elements for SelectTargetPanel")
 		return
 	
+	# TODO: REFACTOR POR DIOS
 	for e in p_elements:
+		var child_anchor = e.get_cursor_anchor()
+		var child_name = e.get_battler_name()
 		var child = BattleTargetable.instantiate()
+		
 		elements.add_child(child)
 		
-		var position = e.global_position
-		var anchor = e.get_cursor_anchor()
-		child.name = e.get_battler_name()
-		child.set_global_position(anchor)
+		call_deferred("_setup_child", child, child_name, child_anchor)
+
+func _setup_child(child: Node, child_name: String, child_anchor: Vector2):
+	child.name = child_name
+	child.set_global_position(child_anchor)

@@ -7,9 +7,6 @@ var _looping: bool
 var _pointer: Vector2 = Vector2.ZERO
 var _dimensions: Vector2
 
-func _init(dimensions: Vector2):
-	_dimensions = dimensions
-
 func move_pointer_by(movement: Vector2):
 	var result = _pointer + movement
 	
@@ -55,3 +52,6 @@ func set_pointer(value: Vector2):
 	
 func set_is_looping_map(value: bool):
 	_looping = value
+
+func set_dimensions(value: Vector2):
+	_dimensions = value
