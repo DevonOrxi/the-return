@@ -46,8 +46,8 @@ func _initialize_command_stack():
 	_command_stack.append(base_command)
 	_current_command = base_command
 
-func start():
-	super.start()
+func start(with_params: Dictionary = {}):
+	super.start(with_params)
 	
 	_show_current_planning_step()
 
@@ -95,7 +95,6 @@ func _setup_current_planning_step(next_action_components: Dictionary):
 func _setup_select_base_action(next_action_components: Dictionary):
 	# TODO: Extract some
 	var commands = _battle_info.get_actor_commands()
-	#var command_names = commands.map(func(cmd): return cmd.get_name())
 	var step = SelectBaseActionPlanningStep.new(next_action_components)
 	
 	step.setup_nav_map(commands)
@@ -129,7 +128,6 @@ func _prepare_next_command_steps():
 #endregion
 
 #region Input Handlers
-
 func _check_player_input():
 	if Input.is_action_just_pressed("ui_accept"):
 		_handle_accept_input()
@@ -189,7 +187,6 @@ func _handle_movement_input():
 #endregion
 
 #region Command Stack Index
-
 func _increment_command_stack_ixs():
 	var current_command_steps = _current_command.get_amount_of_steps()
 	if _command_step_ix < current_command_steps - 1:
