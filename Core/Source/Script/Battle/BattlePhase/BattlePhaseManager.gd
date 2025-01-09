@@ -29,7 +29,7 @@ func _change_phase(to_phase: BattlePhase, payload: Dictionary):
 		_current_phase = to_phase
 		_current_phase.change_condition_met.connect(_change_phase)
 		_current_phase.ui_change.connect(_ui_change)
-		_current_phase.start()
+		_current_phase.start(payload)
 		
 		## Abajo?
 		phase_changed.emit(to_phase)

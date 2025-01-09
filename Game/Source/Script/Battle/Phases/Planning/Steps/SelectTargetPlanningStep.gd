@@ -2,9 +2,7 @@ extends PlanningStep
 
 class_name SelectTargetPlanningStep
 
-func _init(action_components: Dictionary):
-	super(action_components)
-	
+func _init():
 	# TODO: Figure out generalistic approach
 	_command_type = CommandStepType.TARGET_ENEMY_SINGLE
 
@@ -34,16 +32,3 @@ func show(on_ui_change: Callable):
 		on_ui_change.call(InstructionType.UI.DISABLE_ALL_ACTION_PANELS, {})
 		on_ui_change.call(InstructionType.UI.ENABLE_PANEL, change_payload)
 		on_ui_change.call(InstructionType.UI.MOVE_SELECTION_CURSOR_UI, cursor_payload)
-
-func get_next_action_components(params: Array) -> Dictionary:
-	var battlers = params.filter(func(param): return param is Battler)
-	if battlers.size() <= 0:
-		return _partial_action_components
-	
-	var components = {
-		"targets": battlers
-	}
-	
-	components.merge(_partial_action_components, true)
-	
-	return components

@@ -9,5 +9,8 @@ func _init(actor: Battler, allies: Array[Battler], enemies: Array[Battler]):
 	_ally_units = allies
 	_enemy_units = enemies
 
+func get_actor() -> Battler:
+	return _actor
+
 func get_actor_commands() -> Array[Command]:
 	return _actor.get_commands()

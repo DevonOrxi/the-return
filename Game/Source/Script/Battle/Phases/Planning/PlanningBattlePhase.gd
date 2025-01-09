@@ -6,14 +6,11 @@ const CommandStepType = InstructionType.CommandStepType
 
 var _next_phase: BattlePhase
 var _battle_info: BattleInfo
-var _command_stack: Array[Command]
-var _current_command: Command
-var _planning_stack: Array[PlanningStep]
-var _command_ix: int = 0
-var _command_step_ix: int = 0
+var _planning_result: PlanningPhaseResult
+var _planning_step_stack: Array[PlanningStep]
+var _planning_command_map: PlanningCommandMap
 
 #region Lifecycle
-
 func _init():
 	name = "Planning"
 	_name = "Planning"
@@ -28,23 +25,13 @@ func setup(phase_data: Dictionary = {}):
 	var allies: Array[Battler] = phase_data.get("allies", empty)
 	var enemies: Array[Battler] = phase_data.get("enemies", empty)
 	
+	_planning_result = PlanningPhaseResult.new()
+	_planning_command_map = PlanningCommandMap.new()
 	_battle_info = BattleInfo.new(actor, allies, enemies)
 	
-	_initialize_command_stack()
-	_setup_current_planning_step({})
-
-func _initialize_command_stack():
-	var first_step_type = CommandStepType.SELECT_BASE_ACTION
+	_planning_result.actor = actor # For now
 	
-	var base_command = Command.new()
-	base_command._name = "Action Select"
-	base_command.set_steps([first_step_type])
-	
-	_command_ix = 0
-	_command_step_ix = 0
-	
-	_command_stack.append(base_command)
-	_current_command = base_command
+	_setup_current_planning_step()
 
 func start(with_params: Dictionary = {}):
 	super.start(with_params)
@@ -58,6 +45,8 @@ func exit():
 	super.exit()
 	
 	_battle_info = null
+	_planning_command_map = null
+	_planning_step_stack = []
 #endregion
 
 #region Phase Management
@@ -65,8 +54,8 @@ func exit():
 func set_next_phase(phase: BattlePhase):
 	_next_phase = phase
 
-func _go_to_next_phase(last_action_components: Dictionary):
-	change_condition_met.emit(_next_phase, last_action_components)
+func _go_to_next_phase():
+	change_condition_met.emit(_next_phase, _planning_result)
 #endregion
 
 # TODO: Regions
@@ -80,33 +69,36 @@ func _ui_emit(instruction: UIInstructionType, params: Dictionary):
 	ui_change.emit(instruction, params)
 
 #region Step & Command Setup
-
-func _setup_current_planning_step(next_action_components: Dictionary):
-	var current_command_step_type = _get_current_command_step_type()
-	
+func _setup_current_planning_step():
+	var current_command_step_type = _planning_command_map.get_current_command_step_type()
+	var step: PlanningStep
+	# TODO: Generalize!
 	match current_command_step_type:
 		CommandStepType.SELECT_BASE_ACTION:
-			_setup_select_base_action(next_action_components)
+			step = _get_select_base_action()
 		CommandStepType.TARGET_ENEMY_SINGLE:
-			_setup_select_target_enemy_single(next_action_components)
+			step = _get_select_target_enemy_single()
 		_:
 			pass
+	
+	if step:
+		_planning_step_stack.append(step)
+	else:
+		push_warning("WARNING: No new step for stack")
 
-func _setup_select_base_action(next_action_components: Dictionary):
+func _get_select_base_action() -> PlanningStep:
 	# TODO: Extract some
 	var commands = _battle_info.get_actor_commands()
-	var step = SelectBaseActionPlanningStep.new(next_action_components)
-	
+	var step = SelectBaseActionPlanningStep.new()
 	step.setup_nav_map(commands)
-	_planning_stack.append(step)
+	return step
 
-func _setup_select_target_enemy_single(next_action_components: Dictionary):
+func _get_select_target_enemy_single()-> PlanningStep:
 	# TODO: Refactor, hide members behind methods!
 	var targets = _battle_info._enemy_units
-	var step = SelectTargetPlanningStep.new(next_action_components)
-	
+	var step = SelectTargetPlanningStep.new()
 	step.setup_nav_map(targets)
-	_planning_stack.append(step)
+	return step
 
 func _prepare_next_command_steps():
 	var current_planning_step = _get_current_planning_step()
@@ -117,12 +109,12 @@ func _prepare_next_command_steps():
 	
 	match current_planning_step.get_command_step_type():
 		CommandStepType.SELECT_BASE_ACTION:
-			var command = _get_current_navigation_map().get_current_element()
-			if not command:
+			var command = _get_current_nav_map_element()
+			if not command or not command is Command:
 				push_warning("WARNING: No command for confirmation in Planning Phase")
 				return
-				
-			_command_stack.append(command)
+			
+			_planning_command_map.append_to_stack(command)
 		_:
 			pass
 #endregion
@@ -137,24 +129,25 @@ func _check_player_input():
 		_handle_movement_input()
 
 func _handle_accept_input():
-	var next_action_components = _get_next_action_components()
+	_store_action_components_on_accept()
 	_prepare_next_command_steps()
 	
 	if _is_last_command_step():
-		_go_to_next_phase(next_action_components)
+		_go_to_next_phase()
 		return
 	
-	_increment_command_stack_ixs()
-	_setup_current_planning_step(next_action_components)
+	_planning_command_map.increment_command_stack_ixs()
+	_setup_current_planning_step()
 	_show_current_planning_step()
 
 func _handle_cancel_input():
-	if _planning_stack.size() <= 1:
+	if _planning_step_stack.size() <= 1:
 		return
 	
-	_planning_stack.pop_back()
+	_erase_action_components_on_back()
+	_planning_step_stack.pop_back()
 	
-	_decrement_commmand_stack_ixs()
+	_planning_command_map.decrement_commmand_stack_ixs()
 	_show_current_planning_step()
 
 func _handle_movement_input():
@@ -186,55 +179,41 @@ func _handle_movement_input():
 	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 #endregion
 
-#region Command Stack Index
-func _increment_command_stack_ixs():
-	var current_command_steps = _current_command.get_amount_of_steps()
-	if _command_step_ix < current_command_steps - 1:
-		_command_step_ix += 1
-	elif _command_ix < _command_stack.size() - 1:
-		_command_step_ix = 0
-		_command_ix += 1
-		_current_command = _command_stack[_command_ix]
 
-func _decrement_commmand_stack_ixs():
-	if _command_step_ix > 0:
-		_command_step_ix -= 1
-	elif _command_stack.size() > 1:
-		_command_stack.pop_back()
-		_command_ix = _command_stack.size() - 1
-		_current_command = _command_stack[_command_ix]
-		_command_step_ix = _current_command.get_steps().size() - 1
-#endregion
 
 #region Helpers
+func _erase_action_components_on_back():
+	_update_action_components(true)
 
-func _get_current_command_step_type() -> CommandStepType:
-	var command = _command_stack[_command_ix]
-	var steps = command.get_steps()
-	return steps[_command_step_ix]
+func _store_action_components_on_accept():
+	_update_action_components(false)
 
-func _get_next_action_components() -> Dictionary:
+func _update_action_components(erasing: bool = false):
 	# TODO: Generalize
 	var current_planning_step = _get_current_planning_step()
-	var next_action_components = {}
+	var step_type = current_planning_step.get_command_step_type()
 	
 	# TODO: Generalize!!!
-	match current_planning_step.get_command_step_type():
-		_:
-			var element = _get_current_navigation_map().get_current_element()
-			var components = current_planning_step.get_next_action_components([element])
-			next_action_components.merge(components)
-	
-	return next_action_components
-
-func _is_last_command_step() -> bool:
-	var next_ix = _command_step_ix + 1
-	var steps_in_command = _current_command.get_amount_of_steps()
-	return next_ix >= steps_in_command and _command_ix >= _command_stack.size() - 1 
+	var components: Dictionary
+	match step_type:
+		CommandStepType.SELECT_BASE_ACTION:
+			var command = _planning_command_map.get_current_command() if not erasing else null
+			_planning_result.command = command
+		CommandStepType.TARGET_ENEMY_SINGLE:
+			var element = _get_current_nav_map_element() if not erasing else null
+			_planning_result.primary_targets = [element]
 
 func _get_current_planning_step() -> PlanningStep:
-	return _planning_stack.back()
+	return _planning_step_stack.back()
 
 func _get_current_navigation_map() -> NavigationMap:
-	return _get_current_planning_step().get_navigation_map()
+	var current_planning_step = _get_current_planning_step()
+	return current_planning_step.get_navigation_map()
+
+func _is_last_command_step() -> bool:
+	return _planning_command_map.is_last_command_step()
+	
+func _get_current_nav_map_element():
+	var nav_map = _get_current_navigation_map()
+	return nav_map.get_current_element()
 #endregion

@@ -4,10 +4,14 @@ class_name Command
 const CommandStepType = InstructionType.CommandStepType
 
 var _name: String
+var _id: String
 var _steps: Array[CommandStepType] = []
 	
 func get_name() -> String:
 	return _name
+
+func get_id() -> String:
+	return _id
 
 func set_steps(steps: Array[CommandStepType]):
 	_steps = steps

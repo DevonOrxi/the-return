@@ -10,9 +10,6 @@ func _init():
 
 func start(with_params: Dictionary = {}):
 	super.start(with_params)
-	
-	print(_phase_data)
-	print()
 
 func exit():
 	super.exit()
