@@ -8,8 +8,8 @@ func _init():
 	name = "Execute"
 	_name = "Execute"
 
-func start(with_params: Dictionary = {}):
-	super.start(with_params)
+func start(previous_phase_result: PhaseResult = null):
+	super.start(previous_phase_result)
 
 func exit():
 	super.exit()

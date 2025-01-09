@@ -6,15 +6,15 @@ const UIInstructionType = InstructionType.UI
 
 var _name: String
 var _is_active: bool
-var _phase_data: Dictionary
+var _previous_phase_result: PhaseResult
 signal change_condition_met(to_phase: BattlePhase, action: PlanningPhaseResult)
 signal ui_change(instruction: UIInstructionType, payload: Dictionary)
 
-func start(with_params: Dictionary = {}):
+func start(previous_phase_result: PhaseResult = null):
 	visible = true
 	_is_active = true
+	_previous_phase_result = previous_phase_result
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	_phase_data = with_params
 
 @warning_ignore("unused_parameter")
 func setup(phase_data: Dictionary = {}):

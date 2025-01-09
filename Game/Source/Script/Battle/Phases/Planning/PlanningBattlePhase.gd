@@ -33,8 +33,8 @@ func setup(phase_data: Dictionary = {}):
 	
 	_setup_current_planning_step()
 
-func start(with_params: Dictionary = {}):
-	super.start(with_params)
+func start(previous_phase_result: PhaseResult = null):
+	super.start()
 	
 	_show_current_planning_step()
 
@@ -194,7 +194,6 @@ func _update_action_components(erasing: bool = false):
 	var step_type = current_planning_step.get_command_step_type()
 	
 	# TODO: Generalize!!!
-	var components: Dictionary
 	match step_type:
 		CommandStepType.SELECT_BASE_ACTION:
 			var command = _planning_command_map.get_current_command() if not erasing else null
