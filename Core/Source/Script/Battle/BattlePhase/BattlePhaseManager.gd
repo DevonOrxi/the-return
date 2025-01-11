@@ -2,12 +2,12 @@ extends Node
 
 class_name BattlePhaseManager
 
-const UIInstructionType = InstructionType.UI
+const UIOrderType = Enum.UIOrderType
 
 var _current_phase: BattlePhase
 signal phase_changed(to_phase: BattlePhase)
 signal turn_ended()
-signal ui_change(instruction: UIInstructionType, payload: Dictionary)
+signal ui_change(instruction: UIOrderType, payload: Dictionary)
 
 func setup(config: BattleConfiguration):
 	for phase in config.phases:
@@ -35,7 +35,7 @@ func _change_phase(to_phase: BattlePhase, previous_phase_result: PhaseResult):
 		phase_changed.emit(to_phase)
 	
 
-func _ui_change(instruction: UIInstructionType, payload: Dictionary):
+func _ui_change(instruction: UIOrderType, payload: Dictionary):
 	ui_change.emit(instruction, payload)
 
 func clean():

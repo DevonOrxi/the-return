@@ -5,7 +5,7 @@ var _command_step_ix: int
 var _command_stack: Array[Command]
 var _current_command: Command
 
-const CommandStepType = InstructionType.CommandStepType
+const CommandStepType = Enum.CommandStepType
 
 func _init():
 	_command_ix = 0

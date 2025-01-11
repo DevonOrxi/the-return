@@ -1,5 +1,5 @@
 
-class_name NavigationMap
+class_name CursorNavigationMap
 
 var _elements: Dictionary
 

@@ -2,13 +2,15 @@ extends Node2D
 
 class_name BattlePhase
 
-const UIInstructionType = InstructionType.UI
+const UIOrderType = Enum.UIOrderType
 
 var _name: String
 var _is_active: bool
 var _previous_phase_result: PhaseResult
+var _next_phase: BattlePhase
+
 signal change_condition_met(to_phase: BattlePhase, action: PlanningPhaseResult)
-signal ui_change(instruction: UIInstructionType, payload: Dictionary)
+signal ui_change(instruction: UIOrderType, payload: Dictionary)
 
 func start(previous_phase_result: PhaseResult = null):
 	visible = true
@@ -31,3 +33,6 @@ func set_phase_name(new_name: String):
 
 func get_phase_name() -> String:
 	return _name
+
+func set_next_phase(next_phase: BattlePhase):
+	_next_phase = next_phase

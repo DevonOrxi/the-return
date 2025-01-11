@@ -1,8 +1,8 @@
 class_name PlanningStep
 
-const CommandStepType = InstructionType.CommandStepType
+const CommandStepType = Enum.CommandStepType
 
-var _navigation_map: NavigationMap = NavigationMap.new()
+var _navigation_map: CursorNavigationMap = CursorNavigationMap.new()
 var _command_type: CommandStepType
 
 func set_command_type(command_type: CommandStepType):

@@ -2,6 +2,8 @@ extends PlanningStep
 
 class_name SelectTargetPlanningStep
 
+const UIOrderType = Enum.UIOrderType
+
 func _init():
 	# TODO: Figure out generalistic approach
 	_command_type = CommandStepType.TARGET_ENEMY_SINGLE
@@ -29,6 +31,6 @@ func show(on_ui_change: Callable):
 	}
 	
 	if on_ui_change:
-		on_ui_change.call(InstructionType.UI.DISABLE_ALL_ACTION_PANELS, {})
-		on_ui_change.call(InstructionType.UI.ENABLE_PANEL, change_payload)
-		on_ui_change.call(InstructionType.UI.MOVE_SELECTION_CURSOR_UI, cursor_payload)
+		on_ui_change.call(UIOrderType.DISABLE_ALL_ACTION_PANELS, {})
+		on_ui_change.call(UIOrderType.ENABLE_PANEL, change_payload)
+		on_ui_change.call(UIOrderType.MOVE_SELECTION_CURSOR_UI, cursor_payload)

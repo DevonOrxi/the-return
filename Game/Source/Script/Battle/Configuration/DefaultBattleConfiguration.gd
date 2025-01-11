@@ -15,7 +15,7 @@ func setup(phases_data: Dictionary):
 		planning = NPCPlanningBattlePhase.new()
 	
 	intro.set_phase_name("Intro")
-	intro.next_phase = planning
+	intro.set_next_phase(planning)
 	intro.setup(phases_data)
 	
 	planning.set_next_phase(execution)

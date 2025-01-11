@@ -2,7 +2,7 @@ extends Control
 
 class_name UIManager
 
-const UIInstructionType = InstructionType.UI
+const UIOrderType = Enum.UIOrderType
 
 @onready var _debug_label = $Gradient/DebugLabel
 @onready var _ui_animation_player = $UIAnimationPlayer
@@ -29,17 +29,17 @@ func on_ui_animation_player_animation_finished(anim_name):
 func on_battle_director_play_ui_animation(animation_name):
 	_ui_animation_player.play(animation_name)
 
-func on_battle_phase_manager_ui_change(instruction: UIInstructionType, payload: Dictionary):
+func on_battle_phase_manager_ui_change(instruction: UIOrderType, payload: Dictionary):
 	if instruction == null:
 		push_warning("WARNING: No action for \"ui_change\"")
 		return
 	
 	match instruction:
-		UIInstructionType.DISABLE_ALL_ACTION_PANELS:
+		UIOrderType.DISABLE_ALL_ACTION_PANELS:
 			_hide_all_action_panels()
-		UIInstructionType.ENABLE_PANEL:
+		UIOrderType.ENABLE_PANEL:
 			_enable_action_panel(payload)
-		UIInstructionType.MOVE_SELECTION_CURSOR_UI:
+		UIOrderType.MOVE_SELECTION_CURSOR_UI:
 			call_deferred("_move_unique_cursor_to_ui", payload)
 		_:
 			pass

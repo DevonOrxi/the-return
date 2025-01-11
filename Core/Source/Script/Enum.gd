@@ -1,7 +1,7 @@
-extends Node
+class_name Enum
 
 # TODO: Convert into Dictionary? Generic in core?
-enum UI {
+enum UIOrderType {
 	DISABLE_ALL_ACTION_PANELS,
 	ENABLE_PANEL,
 	MOVE_SELECTION_CURSOR_UI,
@@ -19,4 +19,11 @@ enum CommandStepType {
 	TARGET_ALLY_SINGLE,
 	TARGET_ALLY_ALL,
 	TARGET_ANY
+}
+
+enum ExecutionBuildingBlockType {
+	MOVE_BATTLER,
+	ANIMATE_BATTLER,
+	FLASH_BATTLER,
+	SHOW_DAMAGE
 }

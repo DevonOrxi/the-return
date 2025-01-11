@@ -2,9 +2,8 @@ extends BattlePhase
 
 class_name PlanningBattlePhase
 
-const CommandStepType = InstructionType.CommandStepType
+const CommandStepType = Enum.CommandStepType
 
-var _next_phase: BattlePhase
 var _battle_info: BattleInfo
 var _planning_result: PlanningPhaseResult
 var _planning_step_stack: Array[PlanningStep]
@@ -50,10 +49,6 @@ func exit():
 #endregion
 
 #region Phase Management
-
-func set_next_phase(phase: BattlePhase):
-	_next_phase = phase
-
 func _go_to_next_phase():
 	change_condition_met.emit(_next_phase, _planning_result)
 #endregion
@@ -65,7 +60,7 @@ func _show_current_planning_step():
 	step.show(_ui_emit)
 
 # TODO: Regions
-func _ui_emit(instruction: UIInstructionType, params: Dictionary):
+func _ui_emit(instruction: UIOrderType, params: Dictionary):
 	ui_change.emit(instruction, params)
 
 #region Step & Command Setup
@@ -176,7 +171,7 @@ func _handle_movement_input():
 		"is_flipped_x" = is_flipped_x
 	}
 	
-	_ui_emit(UIInstructionType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
+	_ui_emit(UIOrderType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 #endregion
 
 
@@ -205,7 +200,7 @@ func _update_action_components(erasing: bool = false):
 func _get_current_planning_step() -> PlanningStep:
 	return _planning_step_stack.back()
 
-func _get_current_navigation_map() -> NavigationMap:
+func _get_current_navigation_map() -> CursorNavigationMap:
 	var current_planning_step = _get_current_planning_step()
 	return current_planning_step.get_navigation_map()
 

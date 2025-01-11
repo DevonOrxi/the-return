@@ -2,7 +2,11 @@ extends BattlePhase
 
 class_name ExecuteBattlePhase
 
-var _next_phase: BattlePhase
+class ExecutionInstructionBuilder:
+	pass
+
+var _execution_instruction: ExecutionInstruction
+var _execution_instruction_builder := ExecutionInstructionBuilder.new()
 
 func _init():
 	name = "Execute"
@@ -10,10 +14,12 @@ func _init():
 
 func start(previous_phase_result: PhaseResult = null):
 	super.start(previous_phase_result)
+	
+	# Get command
+	# Get command dictionary / parsed JSON file
+	# Pass dictionary to builder
+	# Store execution instruction
+	# Execute Order 66
 
 func exit():
 	super.exit()
-
-# TODO: Refactor, maybe in other level?
-func set_next_phase(phase: BattlePhase):
-	_next_phase = phase

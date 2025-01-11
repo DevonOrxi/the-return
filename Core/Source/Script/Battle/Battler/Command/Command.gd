@@ -1,11 +1,12 @@
 
 class_name Command
 
-const CommandStepType = InstructionType.CommandStepType
+const CommandStepType = Enum.CommandStepType
 
 var _name: String
 var _id: String
 var _steps: Array[CommandStepType] = []
+var _execution_plan: Dictionary
 	
 func get_name() -> String:
 	return _name

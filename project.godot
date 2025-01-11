@@ -15,10 +15,6 @@ run/main_scene="res://Core/Source/Scene/Encounter.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[autoload]
-
-InstructionType="*res://Core/Source/Script/Battle/Action/Instruction/InstructionType.gd"
-
 [display]
 
 window/size/viewport_width=640
