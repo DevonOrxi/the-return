@@ -11,8 +11,7 @@ func setup(payload: Dictionary):
 		n.queue_free() 
 	
 	var p_elements = payload["panel_elements"] as Array[String]
-	if not p_elements:
-		push_warning("WARNING: No elements for BaseActionPanel")
+	if Assert.is_null_that_warns(p_elements, "WARNING: No elements found for SelectTargetPanel"):
 		return
 	
 	for e in p_elements:

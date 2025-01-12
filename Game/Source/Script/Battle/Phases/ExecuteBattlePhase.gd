@@ -15,6 +15,9 @@ func _init():
 func start(previous_phase_result: PhaseResult = null):
 	super.start(previous_phase_result)
 	
+	var command = previous_phase_result.command
+	Assert.is_null_that_fails(command, "ERROR: No command for execution builder") 
+	
 	# Get command
 	# Get command dictionary / parsed JSON file
 	# Pass dictionary to builder

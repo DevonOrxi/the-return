@@ -11,8 +11,7 @@ func setup(payload: Dictionary):
 		n.queue_free() 
 	
 	var p_elements = payload["panel_elements"] as Array[Battler]
-	if not p_elements:
-		push_warning("WARNING: No elements for SelectTargetPanel")
+	if Assert.is_null_that_warns(p_elements, "WARNING: No elements found for SelectTargetPanel"):
 		return
 	
 	# TODO: REFACTOR POR DIOS

@@ -17,8 +17,7 @@ func _init():
 func setup(phase_data: Dictionary = {}):
 	# TODO: Refactor
 	var actor = phase_data.get("actor") as Battler
-	if not actor:
-		push_error("ERROR: No actor for Planning Phase!")
+	Assert.is_null_that_fails(actor, "ERROR: No actor for Planning Phase!")
 	
 	var empty: Array[Battler] = []
 	var allies: Array[Battler] = phase_data.get("allies", empty)
@@ -97,16 +96,13 @@ func _get_select_target_enemy_single()-> PlanningStep:
 
 func _prepare_next_command_steps():
 	var current_planning_step = _get_current_planning_step()
-	
-	if not current_planning_step:
-		push_warning("WARNING: No current substep for confirmation in Planning Phase")
+	if Assert.is_null_that_warns(current_planning_step, "WARNING: No current substep for confirmation in Planning Phase"):
 		return
 	
 	match current_planning_step.get_command_step_type():
 		CommandStepType.SELECT_BASE_ACTION:
-			var command = _get_current_nav_map_element()
-			if not command or not command is Command:
-				push_warning("WARNING: No command for confirmation in Planning Phase")
+			var command = _get_current_nav_map_element() as Command
+			if Assert.is_null_that_warns(command, "WARNING: No command for confirmation in Planning Phase"):
 				return
 			
 			_planning_command_map.append_to_stack(command)
@@ -173,8 +169,6 @@ func _handle_movement_input():
 	
 	_ui_emit(UIOrderType.MOVE_SELECTION_CURSOR_UI, cursor_payload)
 #endregion
-
-
 
 #region Helpers
 func _erase_action_components_on_back():

@@ -30,8 +30,8 @@ func on_battle_director_play_ui_animation(animation_name):
 	_ui_animation_player.play(animation_name)
 
 func on_battle_phase_manager_ui_change(instruction: UIOrderType, payload: Dictionary):
-	if instruction == null:
-		push_warning("WARNING: No action for \"ui_change\"")
+	
+	if Assert.is_null_that_warns(instruction, "WARNING: No action for \"ui_change\""):
 		return
 	
 	match instruction:
@@ -53,21 +53,14 @@ func _hide_all_action_panels():
 		)
 
 func _enable_action_panel(payload: Dictionary):
-	if not payload.has("enable_panel_target"):
-		push_warning("WARNING: No target for \"enable_action_panel\"")
-		return
+	var target = payload.get("enable_panel_target")
+	var panel_elements = payload.get("panel_elements")
+	var panel = _action_panels.find_child(target) as UIActionPanel
+	var validate_elements = [target, panel_elements, panel]
 	
-	if not payload.has("panel_elements"):
-		push_warning("WARNING: No panel elements for \"enable_action_panel\"")
+	if Assert.is_null_that_warns(validate_elements, "WARNING: Null element for \"_enable_action_panel\""):
 		return
 		
-	var target = payload.get("enable_panel_target")
-	
-	var panel = _action_panels.find_child(target) as UIActionPanel
-	if not panel:
-		push_warning("WARNING: No target panel found for \"enable_action_panel\"")
-		return
-	
 	var panel_payload = {
 		"panel_elements" = payload.get("panel_elements")
 	}
@@ -80,18 +73,11 @@ func _enable_action_panel(payload: Dictionary):
 		_focused_panel = panel
 
 func _move_unique_cursor_to_ui(payload: Dictionary):
-	if not _movable_cursor:
-		push_warning("WARNING: No cursor for \"_move_unique_cursor_to_ui\"")
-		return
-	
 	var index = payload.get("cursor_ui_index") as int
-	if index == null:
-		push_warning("WARNING: No cursor index for \"_move_unique_cursor_to_ui\"")
-		return
-	
 	var element = _focused_panel.elements.get_child(index) as Control
-	if not element:
-		push_warning("WARNING: Invalid params for \"_move_unique_cursor_to_ui\"")
+	var validate_elements = [_movable_cursor, index, element]
+	
+	if Assert.is_null_that_warns(validate_elements, "WARNING: Null element for \"_move_unique_cursor_to_ui\""):
 		return
 	
 	if not element.is_node_ready():
