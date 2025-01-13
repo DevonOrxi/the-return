@@ -1,10 +1,11 @@
-[gd_scene load_steps=46 format=3 uid="uid://cg58qrvraot3k"]
+[gd_scene load_steps=47 format=3 uid="uid://cg58qrvraot3k"]
 
 [ext_resource type="Script" path="res://test_2.gd" id="1_h6wf7"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/PlayerBattler.gd" id="1_mphn7"]
 [ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Game/Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="2_ktcee"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/NPCBattler.gd" id="3_6a0lw"]
 [ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Game/Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="4_xh7y7"]
+[ext_resource type="PackedScene" uid="uid://bylfvdkkm6bvj" path="res://Game/Assets/UI/Logger.tscn" id="6_rq2wf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ewswx"]
 atlas = ExtResource("2_ktcee")
@@ -259,6 +260,20 @@ tracks/2/keys = {
 "clips": PackedStringArray("damage"),
 "times": PackedFloat32Array(1.65)
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../CanvasLayer/Control/MarginContainer/Logger")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.65),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"log"],
+"method": &"call"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8meg3"]
 _data = {
@@ -462,3 +477,28 @@ position = Vector2(0, -87)
 
 [node name="TargetIndictatorPosition" type="Node2D" parent="Slime"]
 position = Vector2(46, -24)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Logger" parent="CanvasLayer/Control/MarginContainer" instance=ExtResource("6_rq2wf")]
+layout_mode = 2

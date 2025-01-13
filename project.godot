@@ -15,6 +15,10 @@ run/main_scene="res://Core/Source/Scene/Encounter.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DebugLog="*res://Core/Source/Script/Utils/DebugLog.gd"
+
 [display]
 
 window/size/viewport_width=640

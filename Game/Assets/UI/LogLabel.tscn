@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqyonr3heqpks"]
+
+[ext_resource type="FontFile" uid="uid://bo2tjgftcaxve" path="res://Game/Assets/Fonts/m5x7.ttf" id="1_5qbc0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qrqgc"]
+font = ExtResource("1_5qbc0")
+font_size = 32
+
+[node name="Label" type="Label"]
+text = "Lorem ipsum dolor sit amet"
+label_settings = SubResource("LabelSettings_qrqgc")
+vertical_alignment = 2
