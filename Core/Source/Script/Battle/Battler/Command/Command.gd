@@ -6,8 +6,8 @@ const CommandStepType = Enum.CommandStepType
 var _name: String
 var _id: String
 var _steps: Array[CommandStepType] = []
-var _execution_plan: Dictionary
-	
+var _recipe_json: JSON
+
 func get_name() -> String:
 	return _name
 
@@ -19,6 +19,11 @@ func set_steps(steps: Array[CommandStepType]):
 
 func get_steps() -> Array[CommandStepType]:
 	return _steps
-	
+
 func get_amount_of_steps() -> int:
 	return _steps.size()
+
+func get_execution_plan_duplicate() -> Dictionary:
+	var dict = _recipe_json.data as Dictionary
+	Assert.is_null_that_fails(dict)
+	return dict.duplicate(true)

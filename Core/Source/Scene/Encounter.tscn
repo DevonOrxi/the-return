@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/BattleDirector.gd" id="2_m5152"]
 [ext_resource type="Texture2D" uid="uid://u7xy6hvu5m7l" path="res://Game/Assets/Backgrounds/1-night.png" id="3_ahfx8"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/PlayerBattler.gd" id="5_1u5bv"]
-[ext_resource type="Script" path="res://Core/Source/Script/Battle/BattlePhase/BattlePhaseManager.gd" id="5_maqqs"]
+[ext_resource type="Script" path="res://Core/Source/Script/Battle/Phase/BattlePhaseManager.gd" id="5_maqqs"]
 [ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Game/Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="6_8g0j1"]
 [ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/NPCBattler.gd" id="7_3lnn3"]
 [ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Game/Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="7_hh4o3"]

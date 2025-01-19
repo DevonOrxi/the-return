@@ -6,13 +6,13 @@ const UIOrderType = Enum.UIOrderType
 
 var _name: String
 var _is_active: bool
-var _previous_phase_result: PhaseResult
+var _previous_phase_result: Dictionary
 var _next_phase: BattlePhase
 
-signal change_condition_met(to_phase: BattlePhase, action: PlanningPhaseResult)
+signal change_condition_met(to_phase: BattlePhase, with_result: Dictionary)
 signal ui_change(instruction: UIOrderType, payload: Dictionary)
 
-func start(previous_phase_result: PhaseResult = null):
+func start(previous_phase_result: Dictionary = {}):
 	visible = true
 	_is_active = true
 	_previous_phase_result = previous_phase_result

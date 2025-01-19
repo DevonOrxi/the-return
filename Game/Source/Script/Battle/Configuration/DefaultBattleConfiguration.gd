@@ -5,7 +5,7 @@ class_name DefaultBattleConfiguration
 func setup(phases_data: Dictionary):
 	var intro = MockPhase.new()
 	var planning: BattlePhase
-	var execution = ExecuteBattlePhase.new()
+	var execution = ExecutionBattlePhase.new()
 	var outro = MockPhase.new()
 	
 	var actor = phases_data.get("actor", "")

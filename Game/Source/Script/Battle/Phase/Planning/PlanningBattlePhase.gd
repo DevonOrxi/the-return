@@ -5,7 +5,7 @@ class_name PlanningBattlePhase
 const CommandStepType = Enum.CommandStepType
 
 var _battle_info: BattleInfo
-var _planning_result: PlanningPhaseResult
+var _planning_result: Dictionary
 var _planning_step_stack: Array[PlanningStep]
 var _planning_command_map: PlanningCommandMap
 
@@ -23,7 +23,7 @@ func setup(phase_data: Dictionary = {}):
 	var allies: Array[Battler] = phase_data.get("allies", empty)
 	var enemies: Array[Battler] = phase_data.get("enemies", empty)
 	
-	_planning_result = PlanningPhaseResult.new()
+	_planning_result = {}
 	_planning_command_map = PlanningCommandMap.new()
 	_battle_info = BattleInfo.new(actor, allies, enemies)
 	
@@ -31,7 +31,7 @@ func setup(phase_data: Dictionary = {}):
 	
 	_setup_current_planning_step()
 
-func start(previous_phase_result: PhaseResult = null):
+func start(previous_phase_result: Dictionary = {}):
 	super.start()
 	
 	_show_current_planning_step()
@@ -172,20 +172,27 @@ func _handle_movement_input():
 
 #region Helpers
 func _erase_action_components_on_back():
-	_update_action_components(true)
+	_update_action_components()
 
 func _store_action_components_on_accept():
-	_update_action_components(false)
+	_update_action_components()
 
 func _update_action_components(erasing: bool = false):
 	# TODO: Generalize
 	var current_planning_step = _get_current_planning_step()
 	var step_type = current_planning_step.get_command_step_type()
+	var value = _get_current_nav_map_element() if not erasing else null
+	
+	if Assert.is_null(value):
+		return
 	
 	# TODO: Generalize!!!
 	match step_type:
 		CommandStepType.SELECT_BASE_ACTION:
-			var command = _planning_command_map.get_current_command() if not erasing else null
+			var command = value as Command
+			if Assert.is_null_that_warns(command):
+				return
+				
 			_planning_result.command = command
 		CommandStepType.TARGET_ENEMY_SINGLE:
 			var element = _get_current_nav_map_element() if not erasing else null
