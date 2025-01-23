@@ -1,0 +1,78 @@
+{
+	"id": "attack_melee_01",
+	"instructions": [
+		{
+			"type": "wait",
+			"time": 1,
+			"next_instructions": [
+				{
+					"type": "move_battler",
+					"target": "ACTOR_REF",
+					"destination": "POS_TARGET",
+					"time": 2,
+					"easing": "in-out",
+					"condition": "time",
+					"next_instructions": [
+						{
+							"type": "animate_battler",
+							"target": "ACTOR_REF",
+							"animation": "attack",
+							"looping": false,
+							"condition": "animation_finish",
+							"next_instructions": [
+								{
+									"type": "animate_battler",
+									"target": "ACTOR_REF",
+									"animation": "move_backwards",
+									"looping": false,
+									"condition": "animation_finish"
+								},
+								{
+									"type": "move_battler",
+									"target": "ACTOR_REF",
+									"destination": "POS_ORIGINAL",
+									"time": 2,
+									"easing": "in-out",
+									"condition": "time"
+								}
+							]
+						},
+						{
+							"type": "animate_battler",
+							"target": "TARGET_REF",
+							"animation": "hurt",
+							"delay": 0.4,
+							"time": 1,
+							"condition": "time",
+							"looping": true
+						},
+						{
+							"type": "flash_battler",
+							"target": "TARGET_REF",
+							"color": "0xffffffff",
+							"delay": 0.4,
+							"time": 0.1,
+							"condition": "time"
+						},
+						{
+							"type": "damage_battler",
+							"target": "TARGET_REF",
+							"animation": "hurt",
+							"delay": 0.4,
+							"damage_amount": "AMOUNT_REF",
+							"condition": "animation_finish"
+						}
+					]
+				},
+				{
+					"type": "animate_battler",
+					"target": "ACTOR_REF",
+					"animation": "move_forward",
+					"looping": true,
+					"time": 2,
+					"condition": "time"
+				}
+			]
+		}
+	]
+}
