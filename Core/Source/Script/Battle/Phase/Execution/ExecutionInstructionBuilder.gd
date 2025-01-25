@@ -47,6 +47,14 @@ static func _create_block(instruction: Dictionary, input_values: Dictionary) -> 
 	match type:
 		"wait":
 			block = WaitBuildingBlock.new()
+		"move_battler":
+			block = MoveBattlerBuildingBlock.new()
+		"animate_battler":
+			block = AnimateBattlerBuildingBlock.new()
+		"flash_battler":
+			block = FlashBattlerBuildingBlock.new()
+		"damage_battler":
+			block = ShowDamageBuildingBlock.new()
 		_:
 			pass
 	
