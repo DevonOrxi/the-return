@@ -20,7 +20,7 @@ static func _build_instruction_array(instructions: Array, input_values: Dictiona
 		if Assert.is_null_that_warns(instr_dict, "WARNING: Invalid instruction for block building"):
 			continue
 		
-		var block = _create_block(instr_dict, input_values.duplicate())
+		var block = _create_block(instr_dict.duplicate(), input_values.duplicate())
 		if Assert.is_null(block):
 			continue
 		
@@ -43,9 +43,18 @@ static func _create_block(instruction: Dictionary, input_values: Dictionary) -> 
 	if Assert.is_null_that_warns(type, "WARNING: Could not find type for building block"):
 		return null
 	
-	# crear dict 
+	var block: ExecutionBuildingBlock
+	match type:
+		"wait":
+			block = WaitBuildingBlock.new()
+		_:
+			pass
 	
-	#match type:
-		#_:
-			#pass
-	return null
+	# WARNING
+	if Assert.is_null(block):
+		return null
+	
+	block.set_values(instruction)
+	# SET INPUT VALUES HERE
+	
+	return block

@@ -6,6 +6,7 @@ enum FinishCondition {
 	ANIMATION_FINISH
 }
 
+var type: String
 var next_instructions: Array[ExecutionBuildingBlock]
 var delay: float
 var duration: float
@@ -13,11 +14,12 @@ var wait_after_finish: float
 var finish_condition: FinishCondition
 
 func set_values(dictionary: Dictionary):
-	delay = dictionary.get("delay")
-	duration = dictionary.get("duration")
-	wait_after_finish = dictionary.get("wait_after_finish")
+	type = dictionary.get("type", "")
+	delay = dictionary.get("delay", 0.0)
+	duration = dictionary.get("duration", 0.0)
+	wait_after_finish = dictionary.get("wait_after_finish", 0.0)
 	
-	var finish_condition_key = dictionary.get("finish_condition")
+	var finish_condition_key = dictionary.get("finish_condition", "")
 	finish_condition = _get_finish_condition(finish_condition_key)
 
 func _get_finish_condition(key: String) -> FinishCondition:
