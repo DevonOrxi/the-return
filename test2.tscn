@@ -1,9 +1,9 @@
 [gd_scene load_steps=47 format=3 uid="uid://cg58qrvraot3k"]
 
-[ext_resource type="Script" path="res://test_2.gd" id="1_h6wf7"]
-[ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/PlayerBattler.gd" id="1_mphn7"]
+[ext_resource type="Script" uid="uid://lgwt3su5auq8" path="res://test_2.gd" id="1_h6wf7"]
+[ext_resource type="Script" uid="uid://bxcj5bon66vv1" path="res://Core/Source/Script/Battle/Battler/Battlers/PlayerBattler.gd" id="1_mphn7"]
 [ext_resource type="Texture2D" uid="uid://crlc8m1hu2m6a" path="res://Game/Assets/Battlers/Player/paladin/sprite-sheet-249x100.png" id="2_ktcee"]
-[ext_resource type="Script" path="res://Core/Source/Script/Battle/Battler/Battlers/NPCBattler.gd" id="3_6a0lw"]
+[ext_resource type="Script" uid="uid://b0r87jvv4blrc" path="res://Core/Source/Script/Battle/Battler/Battlers/NPCBattler.gd" id="3_6a0lw"]
 [ext_resource type="Texture2D" uid="uid://dq2obprlv7hfh" path="res://Game/Assets/Battlers/Enemy/Slime/sprite-sheet-141x107.png" id="4_xh7y7"]
 [ext_resource type="PackedScene" uid="uid://bylfvdkkm6bvj" path="res://Game/Assets/UI/Logger.tscn" id="6_rq2wf"]
 
@@ -277,8 +277,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8meg3"]
 _data = {
-"RESET": SubResource("Animation_uklcp"),
-"idle": SubResource("Animation_0j8yr")
+&"RESET": SubResource("Animation_uklcp"),
+&"idle": SubResource("Animation_0j8yr")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ydueo"]
@@ -418,9 +418,9 @@ resource_name = "idle"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jcsf6"]
 _data = {
-"RESET": SubResource("Animation_rvlo2"),
-"damage": SubResource("Animation_4n441"),
-"idle": SubResource("Animation_o4n1b")
+&"RESET": SubResource("Animation_rvlo2"),
+&"damage": SubResource("Animation_4n441"),
+&"idle": SubResource("Animation_o4n1b")
 }
 
 [node name="Node2D" type="Node2D"]

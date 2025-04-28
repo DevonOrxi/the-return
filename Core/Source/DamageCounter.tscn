@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bg1ustovtjow5"]
 
-[ext_resource type="Script" path="res://Core/Source/DamageCounter.gd" id="1_7e6j2"]
+[ext_resource type="Script" uid="uid://cf0e46wnqs0wu" path="res://Core/Source/DamageCounter.gd" id="1_7e6j2"]
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Game/Assets/Fonts/m6x11plus.ttf" id="2_8r5ub"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qq4tl"]
@@ -66,8 +66,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_epv75"]
 _data = {
-"RESET": SubResource("Animation_d145x"),
-"appear": SubResource("Animation_57lk8")
+&"RESET": SubResource("Animation_d145x"),
+&"appear": SubResource("Animation_57lk8")
 }
 
 [node name="DamageCounter" type="Control"]

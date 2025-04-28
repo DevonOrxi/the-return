@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://nqgmx05dp1c"]
 
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="1_2jhyl"]
+[ext_resource type="Script" uid="uid://bf02rxy0su2yp" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="1_2jhyl"]
 
 [node name="BattleTargetable" type="Control"]
 layout_mode = 3

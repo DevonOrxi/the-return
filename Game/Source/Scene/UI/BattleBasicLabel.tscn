@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://calwg5s5fpxqg"]
 
 [ext_resource type="FontFile" uid="uid://dq40ewmey2fpc" path="res://Game/Assets/Fonts/m6x11plus.ttf" id="1_tt8gn"]
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="2_p7ttk"]
+[ext_resource type="Script" uid="uid://bf02rxy0su2yp" path="res://Game/Source/Script/Battle/UI/BattleTargetable.gd" id="2_p7ttk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bv3gw"]
 font = ExtResource("1_tt8gn")

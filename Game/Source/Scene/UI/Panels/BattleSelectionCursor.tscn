@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbktb84caprlv"]
 
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/SelectionCursor.gd" id="1_4ttus"]
+[ext_resource type="Script" uid="uid://joylhtyrdy2k" path="res://Game/Source/Script/Battle/UI/SelectionCursor.gd" id="1_4ttus"]
 [ext_resource type="Texture2D" uid="uid://cgunupblcnbr2" path="res://Game/Assets/UI/Cursors/cursor_hand.png" id="2_vuffa"]
 
 [sub_resource type="Animation" id="Animation_qf5sy"]
@@ -38,8 +38,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l0ust"]
 _data = {
-"RESET": SubResource("Animation_qf5sy"),
-"point": SubResource("Animation_7o4mf")
+&"RESET": SubResource("Animation_qf5sy"),
+&"point": SubResource("Animation_7o4mf")
 }
 
 [node name="SelectionCursor" type="MarginContainer"]

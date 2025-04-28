@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dm63k5afp4eee"]
 
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/Panel/BaseActionPanel.gd" id="1_g3ena"]
+[ext_resource type="Script" uid="uid://eoky3o77w37i" path="res://Game/Source/Script/Battle/UI/Panel/BaseActionPanel.gd" id="1_g3ena"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5peuq"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fpbje6px1ep6"]
 
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/Panel/SelectTargetPanel.gd" id="1_tuhqf"]
+[ext_resource type="Script" uid="uid://c6dlo1jc6laxd" path="res://Game/Source/Script/Battle/UI/Panel/SelectTargetPanel.gd" id="1_tuhqf"]
 
 [node name="SelectTargetPanel" type="MarginContainer"]
 anchors_preset = 15

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bylfvdkkm6bvj"]
 
-[ext_resource type="Script" path="res://Game/Source/Script/Battle/UI/DebugLoggable.gd" id="1_87rck"]
+[ext_resource type="Script" uid="uid://yt0fcxd0q8m4" path="res://Game/Source/Script/Battle/UI/DebugLoggable.gd" id="1_87rck"]
 
 [node name="Logger" type="VBoxContainer"]
 theme_override_constants/separation = 0
