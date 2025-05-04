@@ -6,12 +6,12 @@ var animation_name: String
 var animation_looping: bool
 var animation_target: Battler
 
-func set_values(dictionary: Dictionary):
-	super.set_values(dictionary)
+func set_command_config_values(dictionary: Dictionary):
+	super.set_command_config_values(dictionary)
 	
-	animation_name = dictionary.get("animation_name")
-	animation_looping = dictionary.get("animation_looping")
+	animation_name = dictionary.get("animation")
+	animation_looping = dictionary.get("looping")
 	
-	var battler = dictionary.get("animation_target")
+	var battler = dictionary.get("target")
 	if battler is Battler:
 		animation_target = battler

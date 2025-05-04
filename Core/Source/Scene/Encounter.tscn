@@ -285,7 +285,7 @@ autoplay = "idle"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BattleDirector/Battlers/Allies/Paladin"]
 root_node = NodePath("../AnimatedSprite2D")
 libraries = {
-"": SubResource("AnimationLibrary_kmrlb")
+&"": SubResource("AnimationLibrary_kmrlb")
 }
 autoplay = "idle"
 
@@ -378,7 +378,7 @@ metadata/_edit_group_ = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager/Cursors/ActorPointers/ActorPointer"]
 root_node = NodePath("../PointerImage")
 libraries = {
-"": SubResource("AnimationLibrary_s2gds")
+&"": SubResource("AnimationLibrary_s2gds")
 }
 autoplay = "spin"
 
@@ -439,7 +439,7 @@ uppercase = true
 
 [node name="UIAnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UIManager"]
 libraries = {
-"": SubResource("AnimationLibrary_dq2om")
+&"": SubResource("AnimationLibrary_dq2om")
 }
 
 [editable path="CanvasLayer/UIManager/ActionPanels/BaseActionPanel"]

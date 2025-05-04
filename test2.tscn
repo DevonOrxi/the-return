@@ -441,7 +441,7 @@ autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Paladin"]
 libraries = {
-"": SubResource("AnimationLibrary_8meg3")
+&"": SubResource("AnimationLibrary_8meg3")
 }
 autoplay = "idle"
 
@@ -468,7 +468,7 @@ frame_progress = 0.370673
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slime"]
 root_node = NodePath("../AnimatedSprite2D")
 libraries = {
-"": SubResource("AnimationLibrary_jcsf6")
+&"": SubResource("AnimationLibrary_jcsf6")
 }
 autoplay = "idle"
 

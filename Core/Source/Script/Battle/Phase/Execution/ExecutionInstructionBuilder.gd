@@ -62,7 +62,7 @@ static func _create_block(instruction: Dictionary, input_values: Dictionary) -> 
 	if Assert.is_null(block):
 		return null
 	
-	block.set_values(instruction)
-	# SET INPUT VALUES HERE
+	block.set_command_config_values(instruction)
+	block.set_player_input_values(input_values)
 	
 	return block

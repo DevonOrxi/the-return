@@ -10,7 +10,7 @@
 					"target": "ACTOR_REF",
 					"destination": "POS_TARGET",
 					"time": 2,
-					"easing": "in-out",
+					"easing": "ease_in_out",
 					"condition": "time",
 					"next_instructions": [
 						{
@@ -32,7 +32,7 @@
 									"target": "ACTOR_REF",
 									"destination": "POS_ORIGINAL",
 									"time": 2,
-									"easing": "in-out",
+									"easing": "ease_in_out",
 									"condition": "time"
 								}
 							]

@@ -6,36 +6,34 @@ var destination: Vector2
 var easing: Tween.EaseType
 var transition: Tween.TransitionType
 
-func set_values(dictionary: Dictionary):
-	super.set_values(dictionary)
+func set_command_config_values(dictionary: Dictionary):
+	super.set_command_config_values(dictionary)
 	
-	var dest_x = dictionary.get("destination_x") as float
-	var dest_y = dictionary.get("destination_y") as float
+	var dest_x = dictionary.get("destination_x", 0.0)
+	var dest_y = dictionary.get("destination_y", 0.0)
 	destination = Vector2(dest_x, dest_y)
 	
-	var easing_key: String = dictionary.get("easing")
-	if not Assert.is_nullempty(easing_key):
-		easing = _HELPER_easing_string_to_enum(easing_key)
+	var easing_key: String = dictionary.get("easing", "")
+	easing = _easing_string_to_enum(easing_key)
 	
-	var transition_key: String = dictionary.get("transition")
-	if not Assert.is_nullempty(transition_key):
-		transition = _HELPER_transition_string_to_enum(transition_key)
+	var transition_key: String = dictionary.get("transition", "")
+	transition = _transition_string_to_enum(transition_key)
 
 # TODO: Extract
-func _HELPER_easing_string_to_enum(key: String) -> Tween.EaseType:
+func _easing_string_to_enum(key: String) -> Tween.EaseType:
 	match key:
 		"ease_out":
-			return Tween.EaseType.EASE_IN
-		"ease_in":
 			return Tween.EaseType.EASE_OUT
+		"ease_in":
+			return Tween.EaseType.EASE_IN
 		"ease_in_out":
 			return Tween.EaseType.EASE_IN_OUT
 		"ease_out_in":
 			return Tween.EaseType.EASE_OUT_IN
 		_:
-			return Tween.EaseType.EASE_IN
+			return Tween.EaseType.EASE_IN_OUT
 
-func _HELPER_transition_string_to_enum(key: String) -> Tween.TransitionType:
+func _transition_string_to_enum(key: String) -> Tween.TransitionType:
 	match key:
 		"trans_back":
 			return Tween.TransitionType.TRANS_BACK

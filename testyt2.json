@@ -1,0 +1,117 @@
+{
+	"id": "attack_melee_01",
+	"sequence": [
+		{
+			"id": "initial_wait",
+			"next": [
+				{
+					"id": "animate_battler_move_forward"
+				},
+				{
+					"id": "move_battler_to_target",
+					"next": [
+						{
+							"id": "animate_battler_attack",
+							"next": [
+								{
+									"id": "animate_battler_move_back"
+								},
+								{
+									"id": "move_battler_to_original_pos"
+								}
+							]
+						},
+						{
+							"id": "animate_target_hurt"
+						},
+						{
+							"id": "flash_target"
+						},
+						{
+							"id": "show_damage_target"
+						}
+					]
+				}
+
+			]
+		}
+	],
+	"instructions": [
+		{
+			"id": "initial_wait",
+			"type": "wait",
+			"time": 1
+		},
+		{
+			"id":"animate_battler_move_forward",
+			"type": "animate_battler",
+			"target": "ACTOR_REF",
+			"animation": "move_forward",
+			"looping": true,
+			"time": 2,
+			"condition": "time"
+		},
+		{
+			"id": "move_battler_to_target",
+			"type": "move_battler",
+			"target": "ACTOR_REF",
+			"destination": "POS_TARGET",
+			"time": 2,
+			"easing": "ease_in_out",
+			"condition": "time"
+		},
+		{
+			"id": "animate_battler_attack",
+			"type": "animate_battler",
+			"target": "ACTOR_REF",
+			"animation": "attack",
+			"looping": false,
+			"condition": "animation_finish",
+		},
+		{
+			"id": "animate_battler_move_back",
+			"type": "animate_battler",
+			"target": "ACTOR_REF",
+			"animation": "move_backwards",
+			"looping": false,
+			"condition": "animation_finish"
+		},
+		{
+			"id": "move_battler_to_original_pos",
+			"type": "move_battler",
+			"target": "ACTOR_REF",
+			"destination": "POS_ORIGINAL",
+			"time": 2,
+			"easing": "ease_in_out",
+			"condition": "time"
+		},
+		{
+			"id": "animate_target_hurt",
+			"type": "animate_battler",
+			"target": "TARGET_REF",
+			"animation": "hurt",
+			"delay": 0.4,
+			"time": 1,
+			"condition": "time",
+			"looping": true
+		},
+		{
+			"id": "flash_target",
+			"type": "flash_battler",
+			"target": "TARGET_REF",
+			"color": "0xffffffff",
+			"delay": 0.4,
+			"time": 0.1,
+			"condition": "time"
+		},
+		{
+			"id": "show_damage_target",
+			"type": "damage_battler",
+			"target": "TARGET_REF",
+			"animation": "hurt",
+			"delay": 0.4,
+			"damage_amount": "AMOUNT_REF",
+			"condition": "animation_finish"
+		}
+	]
+}
