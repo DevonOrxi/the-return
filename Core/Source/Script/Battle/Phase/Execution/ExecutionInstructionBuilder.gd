@@ -1,44 +1,73 @@
 class_name ExecutionInstructionBuilder
 
-static func build(recipe: Dictionary, input_values: Dictionary) -> ExecutionInstruction:
-	var instructions = recipe.get("instructions") as Array
+static func build(blueprint: Dictionary, state_params: Dictionary) -> ExecutionInstruction:
+	var instructions = blueprint.get("instructions") as Array
+	var sequence = blueprint.get("sequence") as Array
+	
 	if Assert.is_null_that_warns(instructions, "WARNING: No instructions for execution builder"):
 		return null
+		
+	if Assert.is_null_that_warns(sequence, "WARNING: No sequence for execution builder"):
+		return null
 	
-	var id = recipe.get("id")
+	var id = blueprint.get("id")
 	var result = ExecutionInstruction.new()
-	result.id = id
-	result.instructions = _build_instruction_array(instructions, input_values.duplicate())
+	var instruction_map = _map_instruction_dict(instructions, state_params.duplicate())
+	var full_sequence = _create_instruction_sequence(sequence, instruction_map)
 	
+	result.id = id
+	result.instructions = full_sequence
 	return result
 
-static func _build_instruction_array(instructions: Array, input_values: Dictionary) -> Array[ExecutionBuildingBlock]:
-	var result: Array[ExecutionBuildingBlock] = []
+static func _map_instruction_dict(instructions: Array, state_params: Dictionary) -> Dictionary:
+	var result: Dictionary = {}
 	
-	for element in instructions:
-		var instr_dict = element as Dictionary
-		if Assert.is_null_that_warns(instr_dict, "WARNING: Invalid instruction for block building"):
+	for instr in instructions:
+		var instr_dict = instr as Dictionary
+		var instr_id = instr_dict["id"] as String
+		
+		if Assert.is_null_that_warns(instr_dict, "WARNING: Invalid instruction for mapping"):
+			continue
+			
+		if Assert.is_null_that_warns(instr_id, "WARNING: Invalid id for instruction mapping"):
 			continue
 		
-		var block = _create_block(instr_dict.duplicate(), input_values.duplicate())
-		if Assert.is_null(block):
-			continue
+		instr_dict["state_params"] = state_params
+		
+		result[instr_id] = instr_dict
+	return result
+
+static func _create_instruction_sequence(id_sequence: Array, instructions: Dictionary) -> Array[ExecutionBuildingBlock]:
+	var result: Array[ExecutionBuildingBlock] = []
+	
+	for step in id_sequence:
+		var step_dict = step as Dictionary
+		
+		# TODO: Clean warnings
+		if Assert.is_null_that_warns(step_dict, "WARNING: Invalid sequence for block building"):
+			return []
+		
+		var id = step_dict.get("id")
+		if Assert.is_null_that_warns(id, "WARNING: Invalid step id for sequence building"):
+			return []
+		
+		var instruction = instructions.get(id)
+		if Assert.is_null_that_warns(instruction, "WARNING: No instruction with matching id" + id):
+			return []
+		
+		var block = _create_block(instruction.duplicate(true))
+		if Assert.is_null_that_warns(block, "WARNING: Invalid instruction block"):
+			return []
 		
 		result.append(block)
 		
-		var next_instr_array = instr_dict.get("next_instructions")
-		if not next_instr_array is Array:
-			continue
-		
-		next_instr_array = next_instr_array as Array
-		if Assert.is_null(next_instr_array):
-			continue
-		
-		block.next_instructions = _build_instruction_array(next_instr_array, input_values.duplicate())
+		var next = step_dict.get("next")
+		if next is Array:
+			block.next_instructions = _create_instruction_sequence(next, instructions)
 	
 	return result
 
-static func _create_block(instruction: Dictionary, input_values: Dictionary) -> ExecutionBuildingBlock:
+static func _create_block(instruction: Dictionary) -> ExecutionBuildingBlock:
 	var type = instruction.get("type")
 	if Assert.is_null_that_warns(type, "WARNING: Could not find type for building block"):
 		return null
@@ -63,6 +92,5 @@ static func _create_block(instruction: Dictionary, input_values: Dictionary) -> 
 		return null
 	
 	block.set_command_config_values(instruction)
-	block.set_player_input_values(input_values)
 	
 	return block
