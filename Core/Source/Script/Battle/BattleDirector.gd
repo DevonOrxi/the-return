@@ -18,6 +18,7 @@ var _turn_index: int = 0
 
 func setup(configuration: BattleConfiguration):
 	_battle_configuration = configuration
+	_battle_configuration.instruction_emitted_by_phase.connect(_on_battle_instruction_received)
 	_phase_manager.phase_changed.connect(on_battle_phase_manager_phase_changed)
 	_phase_manager.turn_ended.connect(_on_battle_phase_manager_turn_ended)
 	_build_turn_order()
@@ -90,3 +91,6 @@ func _setup_turn_configuration():
 func _start_phase_manager():
 	_phase_manager.setup(_battle_configuration)
 	_phase_manager.start()
+
+func _on_battle_instruction_received(plan: ExecutionInstruction):
+	print("OJETE")

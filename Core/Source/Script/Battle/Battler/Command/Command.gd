@@ -23,7 +23,7 @@ func get_steps() -> Array[CommandStepType]:
 func get_amount_of_steps() -> int:
 	return _steps.size()
 
-func get_execution_plan_duplicate() -> Dictionary:
+func get_blueprint_duplicate() -> Dictionary:
 	var dict = _blueprint_json.data as Dictionary
 	Assert.is_null_that_fails(dict)
 	return dict.duplicate(true)
