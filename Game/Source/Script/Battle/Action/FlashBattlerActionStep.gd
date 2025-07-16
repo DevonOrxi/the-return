@@ -1,6 +1,6 @@
-extends ExecutionBuildingBlock
+extends BattleActionStep
 
-class_name FlashBattlerBuildingBlock
+class_name FlashBattlerActionStep
 
 var flashing_target: Battler
 var flashing_color: Color

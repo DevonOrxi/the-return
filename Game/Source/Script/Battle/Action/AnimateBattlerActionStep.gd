@@ -1,6 +1,6 @@
-extends ExecutionBuildingBlock
+extends BattleActionStep
 
-class_name AnimateBattlerBuildingBlock
+class_name AnimateBattlerActionStep
 
 var animation_name: String
 var animation_looping: bool

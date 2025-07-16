@@ -92,5 +92,5 @@ func _start_phase_manager():
 	_phase_manager.setup(_battle_configuration)
 	_phase_manager.start()
 
-func _on_battle_instruction_received(plan: ExecutionInstruction):
+func _on_battle_instruction_received(plan: BattleActionSequence):
 	print("OJETE")

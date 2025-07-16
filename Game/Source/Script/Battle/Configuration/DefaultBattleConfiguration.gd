@@ -28,5 +28,5 @@ func setup(phases_data: Dictionary):
 	
 	phases.assign([intro, planning, execution, outro])
 
-func _on_phase_emitted_instructions(plan: ExecutionInstruction):
+func _on_phase_emitted_instructions(plan: BattleActionSequence):
 	instruction_emitted_by_phase.emit(plan)

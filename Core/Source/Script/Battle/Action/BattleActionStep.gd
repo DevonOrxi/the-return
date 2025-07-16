@@ -1,4 +1,4 @@
-class_name ExecutionBuildingBlock
+class_name BattleActionStep
 
 enum FinishCondition {
 	INSTANT,
@@ -7,7 +7,7 @@ enum FinishCondition {
 }
 
 var type: String
-var next_instructions: Array[ExecutionBuildingBlock]
+var next_instructions: Array[BattleActionStep]
 var delay: float
 var duration: float
 var wait_after_finish: float

@@ -1,6 +1,6 @@
-extends ExecutionBuildingBlock
+extends BattleActionStep
 
-class_name WaitBuildingBlock
+class_name WaitActionStep
 
 var waiting_time: float
 

@@ -1,6 +1,6 @@
-class_name ExecutionInstructionBuilder
+class_name BattleActionSequenceBuilder
 
-static func build(blueprint: Dictionary, state_params: Dictionary) -> ExecutionInstruction:
+static func build(blueprint: Dictionary, state_params: Dictionary) -> BattleActionSequence:
 	var instructions = blueprint.get("instructions") as Array
 	var sequence = blueprint.get("sequence") as Array
 	
@@ -11,12 +11,12 @@ static func build(blueprint: Dictionary, state_params: Dictionary) -> ExecutionI
 		return null
 	
 	var id = blueprint.get("id")
-	var result = ExecutionInstruction.new()
+	var result = BattleActionSequence.new()
 	var instruction_map = _map_instruction_dict(instructions, state_params.duplicate())
 	var full_sequence = _create_instruction_sequence(sequence, instruction_map)
 	
 	result.id = id
-	result.instructions = full_sequence
+	result.sequence = full_sequence
 	return result
 
 static func _map_instruction_dict(instructions: Array, state_params: Dictionary) -> Dictionary:
@@ -37,8 +37,8 @@ static func _map_instruction_dict(instructions: Array, state_params: Dictionary)
 		result[instr_id] = instr_dict
 	return result
 
-static func _create_instruction_sequence(id_sequence: Array, instructions: Dictionary) -> Array[ExecutionBuildingBlock]:
-	var result: Array[ExecutionBuildingBlock] = []
+static func _create_instruction_sequence(id_sequence: Array, instructions: Dictionary) -> Array[BattleActionStep]:
+	var result: Array[BattleActionStep] = []
 	
 	for step in id_sequence:
 		var step_dict = step as Dictionary
@@ -67,23 +67,23 @@ static func _create_instruction_sequence(id_sequence: Array, instructions: Dicti
 	
 	return result
 
-static func _create_block(instruction: Dictionary) -> ExecutionBuildingBlock:
+static func _create_block(instruction: Dictionary) -> BattleActionStep:
 	var type = instruction.get("type")
 	if Assert.is_null_that_warns(type, "WARNING: Could not find type for building block"):
 		return null
 	
-	var block: ExecutionBuildingBlock
+	var block: BattleActionStep
 	match type:
 		"wait":
-			block = WaitBuildingBlock.new()
+			block = WaitActionStep.new()
 		"move_battler":
-			block = MoveBattlerBuildingBlock.new()
+			block = MoveBattlerActionStep.new()
 		"animate_battler":
-			block = AnimateBattlerBuildingBlock.new()
+			block = AnimateBattlerActionStep.new()
 		"flash_battler":
-			block = FlashBattlerBuildingBlock.new()
+			block = FlashBattlerActionStep.new()
 		"damage_battler":
-			block = ShowDamageBuildingBlock.new()
+			block = ShowDamageActionStep.new()
 		_:
 			pass
 	

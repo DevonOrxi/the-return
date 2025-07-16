@@ -21,7 +21,7 @@ enum CommandStepType {
 	TARGET_ANY
 }
 
-enum ExecutionBuildingBlockType {
+enum BattleActionStepType {
 	MOVE_BATTLER,
 	ANIMATE_BATTLER,
 	FLASH_BATTLER,

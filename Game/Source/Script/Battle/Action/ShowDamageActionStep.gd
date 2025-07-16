@@ -1,6 +1,6 @@
-extends ExecutionBuildingBlock
+extends BattleActionStep
 
-class_name ShowDamageBuildingBlock
+class_name ShowDamageActionStep
 
 var damage_text: String
 var damage_position: Vector2

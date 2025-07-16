@@ -1,6 +1,6 @@
-extends ExecutionBuildingBlock
+extends BattleActionStep
 
-class_name MoveBattlerBuildingBlock
+class_name MoveBattlerActionStep
 
 var destination: Vector2
 var easing: Tween.EaseType
