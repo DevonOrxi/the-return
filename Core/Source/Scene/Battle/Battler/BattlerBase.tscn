@@ -87,7 +87,7 @@ autoplay = "idle"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimatedSprite2D")
 libraries = {
-"": SubResource("AnimationLibrary_kmrlb")
+&"": SubResource("AnimationLibrary_kmrlb")
 }
 autoplay = "idle"
 

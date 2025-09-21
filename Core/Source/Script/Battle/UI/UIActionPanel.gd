@@ -1,6 +1,4 @@
-extends Control
-
-class_name UIActionPanel
+@abstract class_name UIActionPanel extends Control
 
 var elements: GridContainer
 

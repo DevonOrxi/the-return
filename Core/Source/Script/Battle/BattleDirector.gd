@@ -12,6 +12,7 @@ signal play_ui_animation(animation_name: String)
 var _battle_configuration: BattleConfiguration
 var _current_actor: Battler
 var _turns: Array[Battler] = []
+var _action_sequence_dispatcher = BattleSequenceDispatcher.new()
 
 ## Replace with turn selector
 var _turn_index: int = 0
@@ -93,4 +94,4 @@ func _start_phase_manager():
 	_phase_manager.start()
 
 func _on_battle_instruction_received(plan: BattleActionSequence):
-	print("OJETE")
+	pass

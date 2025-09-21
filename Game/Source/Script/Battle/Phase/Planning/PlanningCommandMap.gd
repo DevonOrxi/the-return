@@ -13,7 +13,7 @@ func _init():
 	
 	var first_step_type = CommandStepType.SELECT_BASE_ACTION
 	
-	var base_command = Command.new()
+	var base_command = BaseActionCommand.new()
 	base_command._name = "Action Select"
 	base_command.set_steps([first_step_type])
 	

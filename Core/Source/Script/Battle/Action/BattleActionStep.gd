@@ -1,4 +1,4 @@
-class_name BattleActionStep
+@abstract class_name BattleActionStep
 
 enum FinishCondition {
 	INSTANT,

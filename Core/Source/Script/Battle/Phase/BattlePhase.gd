@@ -1,6 +1,4 @@
-extends Node2D
-
-class_name BattlePhase
+@abstract class_name BattlePhase extends Node2D
 
 const UIOrderType = Enum.UIOrderType
 

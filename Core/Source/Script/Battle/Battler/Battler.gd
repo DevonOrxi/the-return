@@ -1,6 +1,4 @@
-extends Node2D
-
-class_name Battler
+@abstract class_name Battler extends Node2D
 
 @onready var _cursor_anchor = $TargetIndictatorPosition
 

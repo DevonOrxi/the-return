@@ -1,4 +1,4 @@
-class_name BattleConfiguration
+@abstract class_name BattleConfiguration
 
 var phases: Array[BattlePhase] = []
 

@@ -1,5 +1,4 @@
-
-class_name Command
+@abstract class_name Command
 
 const CommandStepType = Enum.CommandStepType
 

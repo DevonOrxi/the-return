@@ -1,4 +1,3 @@
-
 class_name CursorNavigationMap
 
 var _elements: Dictionary
